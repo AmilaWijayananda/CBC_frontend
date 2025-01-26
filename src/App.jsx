@@ -5,6 +5,7 @@ import viteLogo from '/vite.svg'
 import LoginPage from './pages/loginPage'
 import HomePage from './pages/homePage'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import SignupPage from './pages/signUpPage'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -14,9 +15,9 @@ function App() {
       <BrowserRouter>
         <Routes path="/*">  
           <Route path="/login" element={<LoginPage />} />
-          <Route path='/signup' element={<SignInPage />} />
+          <Route path='/signup' element={<SignupPage />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/*" element={<h1>404 error</h1>} />
+          <Route path="/*" element={<HomePage />} />
         </Routes>
       </BrowserRouter>
     </>
