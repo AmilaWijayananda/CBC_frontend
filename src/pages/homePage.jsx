@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './homePage.css'
 export default function HomePage() {
     return (
@@ -9,6 +10,8 @@ export default function HomePage() {
         <section>
           <button onClick={() => alert("Explore more!")}>Explore Now</button>
         </section>
+
+        <Link to="/login">Login</Link>
       </div>
     );
   }
