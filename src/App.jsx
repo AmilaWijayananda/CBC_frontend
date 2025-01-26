@@ -14,6 +14,7 @@ function App() {
       <BrowserRouter>
         <Routes path="/*">  
           <Route path="/login" element={<LoginPage />} />
+          <Route path='/signup' element={<SignInPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/*" element={<h1>404 error</h1>} />
         </Routes>
