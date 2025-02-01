@@ -14,6 +14,7 @@ export default function LoginPage() {
     }).then((res) => {
       console.log(res)
       if(res.data.user==null){
+        alert(res.data.message)
         return
       }
       localStorage.setItem('token', res.data.token)
