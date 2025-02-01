@@ -2,9 +2,7 @@ import axios from "axios";
 
 export default function AdminProductsPage() {
 
-    axios.get('http://localhost:5000/api/products').then((res) => {
-        console.log(res.data);
-    });
+    getProducts();
 
     return (
         <div>
@@ -12,4 +10,8 @@ export default function AdminProductsPage() {
         </div>
     );
 }
-//
+
+async function getProducts() {
+    const res = await axios.get('http://localhost:5000/api/products');
+    console.log(res.data);
+}
