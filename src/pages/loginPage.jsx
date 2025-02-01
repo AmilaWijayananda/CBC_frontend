@@ -1,6 +1,11 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function LoginPage() {
+
+  const [email, setEmail] = useState('Your email')
+  const [password, setPassword] = useState('')
+
     return (
       <div className='flex justify-center items-center w-full h-screen bg-red-800'>
         <div className='w-[450px] h-[450px] bg-blue-500 flex flex-col justify-center items-center'>
