@@ -1,23 +1,34 @@
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import uploadMediaToSupabase from "../../utils/mediaUpload";
 
 export default function AddProductForm() {
 
     const [productId, setProductId] = useState("");
     const [productName, setProductName] = useState("");
     const [alternativeNames, setAlternativeNames] = useState("");
-    const [imageFiles, setImageUrls] = useState([]);
+    const [imageFiles, setImageFiles] = useState([]);
     const [price, setPrice] = useState("");
     const [lastPrice, setLastPrice] = useState("");
     const [stock, setStock] = useState("");
     const [description, setDescription] = useState("");
+    const navigate = useNavigate()
     
 
     async function handleSubmit(){
 
         const altNames = alternativeNames.split(",")
-        //const imgUrls = imageFiles.split(",")
+
+        const promisesArray = []
+
+        for(let i=0; i<imageFiles.length; i++){
+          promisesArray[i] = uploadMediaToSupabase(imageFiles[i])
+        }
+        
+        const imgUrls = await Promise.all(promisesArray)
+        
 
         const product = {
             productId : productId,
@@ -38,6 +49,7 @@ export default function AddProductForm() {
                 Authorization: `Bearer ${token}`
               }
             })
+            navigate("/admin/products")
             toast.success("Product Added Successfully")
           } catch (error) {
             console.log(error)
@@ -92,7 +104,10 @@ export default function AddProductForm() {
               type="file"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
               placeholder="Enter Image URLs (comma-separated)"
-              
+              onChange={(e) => {
+                setImageFiles(e.target.files)
+              }}
+              multiple
             />
           </div>
 
