@@ -20,23 +20,6 @@ export default function AdminProductsPage() {
 
     console.log(products);
 
-    // return (
-    //     <div>
-    //         <h1>Admin Products Page</h1>
-    //         {
-    //             products.map(
-    //                 (product,index) => {
-    //                     return (
-    //                         <div key={index}>
-    //                             {product.ProductName}
-    //                         </div>
-    //                     )
-    //                 }
-    //             )
-    //         }
-    //     </div>
-    // );
-
 
     return (
         <div>
@@ -79,7 +62,3 @@ export default function AdminProductsPage() {
     );
 }
 
-// async function getProducts() {
-//     const res = await axios.get('http://localhost:5000/api/products');
-//     console.log(res.data);
-// }
