@@ -41,6 +41,7 @@ export default function AddProductForm() {
             toast.success("Product Added Successfully")
           } catch (error) {
             console.log(error)
+            toast.error('Failed to add product')
           }
     }
 
