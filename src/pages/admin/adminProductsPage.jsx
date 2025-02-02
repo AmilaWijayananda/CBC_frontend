@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { FaTrash } from "react-icons/fa";
+import { FaPlus, FaTrash } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 export default function AdminProductsPage() {
 
@@ -22,7 +23,8 @@ export default function AdminProductsPage() {
 
 
     return (
-        <div>
+        <div className="relative">
+            <Link to={"/admin/products/addProduct"} className="absolute right-4 bottom-4"><FaPlus /></Link>
             <h1>Admin Products Page</h1>
             <table>
                 <thead>

@@ -47,6 +47,7 @@ export default function AdminHomePage() {
           <Route path="/dashboard" element={<h1>Dashboard</h1>} />
           <Route path="/customers" element={<h1>Customers</h1>} />
           <Route path="/products" element={<AdminProductsPage />} />
+          <Route path="/products/addProduct" element={<h1>Add Product</h1>} />
           <Route path="/orders" element={<h1>Oders</h1>} />
         </Routes>
 
