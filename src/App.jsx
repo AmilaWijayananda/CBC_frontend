@@ -6,7 +6,7 @@ import LoginPage from './pages/loginPage'
 import HomePage from './pages/homePage'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import SignupPage from './pages/signUpPage'
-import AdminHomePage from './pages/adminHomePage'
+import AdminHomePage from './pages/admin/adminHomePage'
 import { Toaster } from 'react-hot-toast'
 
 function App() {

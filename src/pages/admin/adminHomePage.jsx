@@ -1,6 +1,6 @@
 import { Link, Route, Routes } from "react-router-dom";
 import { FaChartBar, FaUsers, FaBox, FaShoppingCart } from "react-icons/fa";
-import AdminProductsPage from "./admin/adminProductsPage";
+import AdminProductsPage from "./adminProductsPage";
 
 export default function AdminHomePage() {
   return (
@@ -41,7 +41,7 @@ export default function AdminHomePage() {
       </div>
 
       {/* Main Content */}
-      <div className="bg-red-500 w-[80%] h-screen p-6">
+      <div className="bg-blue-200 w-[80%] h-screen p-6">
         
         <Routes path="/*">
           <Route path="/dashboard" element={<h1>Dashboard</h1>} />
