@@ -44,8 +44,8 @@ export default function AdminProductsPage() {
                     (product,index) => {
                          return (
                             <tr key={index}>
-                                <td>{product.productID}</td>
-                                <td>{product.ProductName}</td>
+                                <td>{product.productId}</td>
+                                <td>{product.productName}</td>
                                 <td>{product.price}</td>
                                 <td>{product.stock}</td>
                                 <td>{product.description}</td>

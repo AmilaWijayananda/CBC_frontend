@@ -41,6 +41,8 @@ export default function AddProductForm() {
             description : description
           }
 
+          //console.log("Final Product Object Before Sending:", product); // Debugging log
+
           const token = localStorage.getItem("token")
 
           try {
