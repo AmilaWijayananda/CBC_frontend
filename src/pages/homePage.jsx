@@ -11,7 +11,7 @@ export default function HomePage() {
           <Routes path="/*">
             <Route path="/" element={<h1>Home Page</h1>} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/productInfo" element={<ProductOverview/>} />
+            <Route path="/productInfo/:id" element={<ProductOverview/>} />
           </Routes>
         </div>
         
