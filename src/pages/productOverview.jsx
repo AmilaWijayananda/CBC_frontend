@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ProductNotFound from "./productNotFound";
 import ImageSlider from "../components/imageSlider";
+import toast from "react-hot-toast";
 
 export default function ProductOverview() {
   const params = useParams();
