@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ProductNotFound from "./productNotFound";
 import ImageSlider from "../components/imageSlider";
 import toast from "react-hot-toast";
+import { addToCart } from "../utils/cartFunction";
 
 export default function ProductOverview() {
   const params = useParams();
