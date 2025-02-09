@@ -55,8 +55,19 @@ export default function ProductOverview() {
       )}
       {status == "not found" && <ProductNotFound />}
       {status == "found" && (
-        <div className="w-full h-full flex items-center justify-center">
-          <div className="w-[35%] h-[300px]">
+        <div className="w-full h-full flex flex-col lg:flex-row  items-center justify-center">
+          <h1 className="text-3xl font-bold text-gray-800 lg:hidden">
+            {product.productName}
+          </h1>
+          <p className="text-xl text-gray-600 lg:hidden">
+            {product.price > product.lastPrice && (
+              <span className="line-through text-red-500">
+                LKR.{product.price}
+              </span>
+            )}{" "}
+            <span>{"LKR." + product.lastPrice}</span>
+          </p>
+          <div className="w-[100%] lg:w-[35%] lg:h-full">
             <ImageSlider images={product.images} />
           </div>
           <div className="w-[65%] h-full flex flex-col items-center">
