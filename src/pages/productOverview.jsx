@@ -70,12 +70,12 @@ export default function ProductOverview() {
           <div className="w-[100%] lg:w-[35%] lg:h-full">
             <ImageSlider images={product.images} />
           </div>
-          <div className="w-[65%] h-full flex flex-col items-center">
-            <h1 className="text-3xl font-bold">{product.productName}</h1>
+          <div className="w-[65%] h-full p-4">
+            <h1 className="text-3xl font-bold hidden lg:block">{product.productName}</h1>
             <h1 className="text-2xl font-bold text-gray-500">
               {product.altNames.join(" | ")}
             </h1>
-            <p className="text-xl">{product.description}</p>
+            <p className="text-xl line-clamp-3">{product.description}</p>
             <p className="text-xl text-gray-600 hidden lg:block">
               {product.price > product.lastPrice && (
                 <span className="line-through text-red-500">
