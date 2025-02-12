@@ -6,6 +6,7 @@ import ProductPage from './home/product';
 import Cart from './home/cart';
 import ShippingPage from './home/shipping';
 import MyOrdersPage from './home/orders';
+import Home from './home/home';
 
 export default function HomePage() {
     return (
@@ -13,7 +14,7 @@ export default function HomePage() {
         <Header />
         <div className='w-full h-[calc(100vh-100px)]'>
           <Routes path="/*">
-            <Route path="/" element={<h1>Home Page</h1>} />
+            <Route path="/" element={<Home/>} />
             <Route path='/products' element={<ProductPage/>} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<LoginPage />} />
