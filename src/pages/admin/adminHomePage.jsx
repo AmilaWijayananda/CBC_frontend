@@ -1,11 +1,46 @@
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import { FaChartBar, FaUsers, FaBox, FaShoppingCart } from "react-icons/fa";
 import AdminProductsPage from "./adminProductsPage";
 import AddProductForm from "./addProductForm";
 import EditProductForm from "./editProductForm";
 import AdminOrdersPage from "./adminOrderPage";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function AdminHomePage() {
+
+  const [user,setUser] = useState(null)
+  const navigate = useNavigate();
+  useEffect(()=>{
+    const token = localStorage.getItem("token");
+    if (!token) {      
+      navigate("/login")
+      return;
+    }
+    axios
+      .get(import.meta.env.VITE_BACKEND_URL + "/api/users", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then((res)=>{
+        console.log(res.data)
+        if(res.data.type!="admin"){
+          toast.error("Unauthorized access")
+          navigate("/login")
+        }else{
+          setUser(res.data)
+        }
+
+      }).catch((err)=>{
+        console.error(err)
+        toast.error("Failed to fetch user data")
+        navigate("/login")
+      })
+    
+  },[])
+
+
   return (
     <div className="bg-blue-200 w-full h-screen flex">
       {/* Sidebar */}
@@ -46,14 +81,19 @@ export default function AdminHomePage() {
       {/* Main Content */}
       <div className="bg-blue-200 w-[80%] h-screen p-6">
         
-        <Routes path="/*">
+        {user!=null && <Routes path="/*">
           <Route path="/dashboard" element={<h1>Dashboard</h1>} />
           <Route path="/customers" element={<h1>Customers</h1>} />
           <Route path="/products" element={<AdminProductsPage />} />
           <Route path="/products/addProduct" element={<AddProductForm/>} />
           <Route path="/products/editProduct" element={<EditProductForm/>} />
           <Route path="/orders" element={<AdminOrdersPage />} />
-        </Routes>
+        </Routes>}
+        {
+          user==null && <div className="w-full h-full flex justify-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+          </div>
+        }
 
       </div>
     </div>
