@@ -5,25 +5,58 @@ import NavSlider from "./navSlider";
 
 export default function Header() {
     const [isSliderOpen, setIsSliderOpen] = useState(false);
+  
     return (
-        <>
-        {isSliderOpen&&<NavSlider closeSlider={()=>{setIsSliderOpen(false)}}/>}
-        <header className="bg-secondary w-full h-[100px] relative flex justify-center items-center">
-            <img src="/logo.png" className="cursor-pointer h-full rounded-full absolute left-[10px]"/>
-
-            <RxHamburgerMenu 
-        onClick={()=>{setIsSliderOpen(true)}}
-        className="text-3xl absolute cursor-pointer text-accent right-[10px] lg:hidden" />
-
-            <div className="h-full flex items-center w-[500px] justify-evenly hidden lg:flex">
-            <Link to = "/" className="text-accent text-2xl font-bold hover:border-b border-b-primary">Home</Link>
-            <Link to = "/products" className="text-accent text-2xl font-bold hover:border-b border-b-primary">Products</Link>
-            <Link to = "/about" className="text-accent text-2xl font-bold hover:border-b border-b-primary">About</Link>
-            <Link to = "/contact" className="text-accent text-2xl font-bold hover:border-b border-b-primary">Contact Us</Link>
-            <Link to = "/cart" className="text-accent text-2xl font-bold hover:border-b border-b-primary">Cart</Link>
-            </div>
-
+      <>
+        {isSliderOpen && <NavSlider closeSlider={() => setIsSliderOpen(false)} />}
+        <header className="bg-[#fff1ce] w-full h-[100px] relative flex justify-center items-center shadow-lg">
+          {/* Logo */}
+          <img
+            src="/logo.png"
+            alt="Logo"
+            className="cursor-pointer h-[80px] w-[80px] rounded-full absolute left-4 hover:scale-105 transition-transform duration-300"
+          />
+  
+          {/* Hamburger Menu (Mobile) */}
+          <RxHamburgerMenu
+            onClick={() => setIsSliderOpen(true)}
+            className="text-3xl absolute cursor-pointer text-Accent right-4 lg:hidden hover:text-PrimaryGold transition-colors duration-300"
+          />
+  
+          {/* Navigation Links (Desktop) */}
+          <div className="h-full flex items-center w-[500px] justify-evenly hidden lg:flex">
+            <Link
+              to="/"
+              className="text-Text text-2xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
+            >
+              Home
+            </Link>
+            <Link
+              to="/products"
+              className="text-Text text-2xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
+            >
+              Products
+            </Link>
+            <Link
+              to="/about"
+              className="text-Text text-2xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
+            >
+              About
+            </Link>
+            <Link
+              to="/contact"
+              className="text-Text text-2xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
+            >
+              Contact Us
+            </Link>
+            <Link
+              to="/cart"
+              className="text-Text text-2xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
+            >
+              Cart
+            </Link>
+          </div>
         </header>
-        </>
-    )
-}
+      </>
+    );
+  }
