@@ -2,10 +2,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-export default function MyOrdersPage() {
+export default function AdminOrdersPage() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [updateModalVisible, setUpdateModalVisible] = useState(false);
+  const [detailModalVisible, setDetailModalVisible] = useState(false);
+  const [updateData, setUpdateData] = useState({ status: "", note: "" });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -32,17 +35,59 @@ export default function MyOrdersPage() {
     return orderedItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
-  const handleRowClick = (order) => {
+  const handleViewDetails = (order) => {
     setSelectedOrder(order);
+    setDetailModalVisible(true);
   };
 
-  const closeModal = () => {
+  const handleUpdateOrder = (order) => {
+    setSelectedOrder(order);
+    setUpdateData({ status: order.status, note: order.note || "" });
+    setUpdateModalVisible(true);
+  };
+
+  const closeModals = () => {
     setSelectedOrder(null);
+    setUpdateModalVisible(false);
+    setDetailModalVisible(false);
+  };
+
+  const handleUpdate = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Unauthorized. Please login.");
+      return;
+    }
+
+    axios
+      .put(
+        `${import.meta.env.VITE_BACKEND_URL}/api/orders/${selectedOrder.orderId}`,
+        { status: updateData.status, note: updateData.note },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(() => {
+        toast.success("Order updated successfully.");
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.orderId === selectedOrder.orderId
+              ? { ...order, status: updateData.status, note: updateData.note }
+              : order
+          )
+        );
+        closeModals();
+      })
+      .catch((err) => {
+        toast.error("Failed to update order. Please try again.");
+      });
   };
 
   return (
     <div className="w-full h-full flex flex-col items-center p-4">
-      <h1 className="text-xl font-bold mb-4">My Orders</h1>
+      <h1 className="text-xl font-bold mb-4">Admin Orders</h1>
       {loading ? (
         <p>Loading orders...</p>
       ) : orders.length === 0 ? (
@@ -55,27 +100,38 @@ export default function MyOrdersPage() {
               <th className="p-2 border-b text-left">Status</th>
               <th className="p-2 border-b text-left">Date</th>
               <th className="p-2 border-b text-left">Total</th>
+              <th className="p-2 border-b text-left">Actions</th>
             </tr>
           </thead>
           <tbody>
             {orders.map((order) => (
-              <tr
-                key={order.orderId}
-                className="hover:bg-gray-50 cursor-pointer"
-                onClick={() => handleRowClick(order)}
-              >
+              <tr key={order.orderId} className="hover:bg-gray-50">
                 <td className="p-2 border-b">{order.orderId}</td>
                 <td className="p-2 border-b">{order.status}</td>
                 <td className="p-2 border-b">{new Date(order.date).toLocaleDateString()}</td>
                 <td className="p-2 border-b">LKR {calculateTotal(order.orderedItems).toFixed(2)}</td>
+                <td className="p-2 border-b">
+                  <button
+                    className="bg-blue-500 text-white px-3 py-1 rounded-lg mr-2 hover:bg-blue-600"
+                    onClick={() => handleViewDetails(order)}
+                  >
+                    View
+                  </button>
+                  <button
+                    className="bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600"
+                    onClick={() => handleUpdateOrder(order)}
+                  >
+                    Update
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
 
-      {/* Modal */}
-      {selectedOrder && (
+      {/* Detail Modal */}
+      {detailModalVisible && selectedOrder && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white w-full max-w-md p-4 rounded-lg shadow-lg">
             <h2 className="text-lg font-bold mb-4">Order Details</h2>
@@ -129,9 +185,56 @@ export default function MyOrdersPage() {
             <div className="flex justify-end mt-4">
               <button
                 className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-                onClick={closeModal}
+                onClick={closeModals}
               >
                 Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Update Modal */}
+      {updateModalVisible && selectedOrder && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white w-full max-w-md p-4 rounded-lg shadow-lg">
+            <h2 className="text-lg font-bold mb-4">Update Order</h2>
+            <div className="mb-4">
+              <label className="block text-sm font-medium">Status</label>
+              <select
+                value={updateData.status}
+                onChange={(e) => setUpdateData({ ...updateData, status: e.target.value })}
+                className="w-full p-2 border border-gray-300 rounded-lg"
+              >
+                <option value="preparing">Preparing</option>
+                <option value="cancelled">Cancelled</option>
+                <option value="delivered">Delivered</option>
+                <option value="completed">Completed</option>
+                <option value="paused">Paused</option>
+                <option value="pended">Pended</option>
+              </select>
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium">Note</label>
+              <textarea
+                value={updateData.note}
+                onChange={(e) => setUpdateData({ ...updateData, note: e.target.value })}
+                className="w-full p-2 border border-gray-300 rounded-lg"
+                rows="4"
+              ></textarea>
+            </div>
+            <div className="flex justify-end space-x-4">
+              <button
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg"
+                onClick={closeModals}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                onClick={handleUpdate}
+              >
+                Update
               </button>
             </div>
           </div>

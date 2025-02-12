@@ -3,6 +3,7 @@ import { FaChartBar, FaUsers, FaBox, FaShoppingCart } from "react-icons/fa";
 import AdminProductsPage from "./adminProductsPage";
 import AddProductForm from "./addProductForm";
 import EditProductForm from "./editProductForm";
+import AdminOrdersPage from "./adminOrderPage";
 
 export default function AdminHomePage() {
   return (
@@ -51,7 +52,7 @@ export default function AdminHomePage() {
           <Route path="/products" element={<AdminProductsPage />} />
           <Route path="/products/addProduct" element={<AddProductForm/>} />
           <Route path="/products/editProduct" element={<EditProductForm/>} />
-          <Route path="/orders" element={<h1>Oders</h1>} />
+          <Route path="/orders" element={<AdminOrdersPage />} />
         </Routes>
 
       </div>
