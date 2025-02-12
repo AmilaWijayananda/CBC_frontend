@@ -28,7 +28,7 @@ export default function Home() {
       <div className="min-h-screen bg-Background">
         <div className="container mx-auto px-4 py-8">
           <h1 className="text-4xl font-bold text-Text text-center mb-8 animate-fade-in">
-            Welcome to Our Beauty Store
+            Welcome to Crystal Beauty Clear Store
           </h1>
   
           {loading ? (
