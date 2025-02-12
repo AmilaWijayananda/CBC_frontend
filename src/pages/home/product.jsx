@@ -6,22 +6,44 @@ import ProductCard from "../../components/productCard";
 export default function ProductPage() {
     const [products, setProducts] = useState([]);
     const [loadingStatus, setLoadingStatus] = useState('loading');
-    useEffect(
-        ()=>{
-            if(loadingStatus=='loading'){
-                axios.get('http://localhost:5000/api/products').then((res)=>{
-                    console.log(res.data)
-                    setProducts(res.data)
-                    setLoadingStatus('loaded')
-                }).catch(
-                    (err)=>toast.error("Failed to fetch products from server")
-                )
-            }
-            
-        }
-    ,[])
+    const [query, setQuery] = useState("");
+    useEffect(() => {
+      if (loadingStatus === "loading") {
+        axios
+          .get(import.meta.env.VITE_BACKEND_URL + "/api/products")
+          .then((res) => {
+            console.log(res.data);
+            setProducts(res.data);
+            setLoadingStatus("loaded");
+          })
+          .catch((err) => toast.error("Error loading products"));
+      }
+    }, []);
 
-    
+    function search(e) {
+      const query = e.target.value;
+      setQuery(query);
+      setLoadingStatus("loading");
+      if (query == "") {
+        axios
+          .get(import.meta.env.VITE_BACKEND_URL + "/api/products")
+          .then((res) => {
+            console.log(res.data);
+            setProducts(res.data);
+            setLoadingStatus("loaded");
+          })
+          .catch((err) => toast.error("Error loading products"));
+      }else{
+        axios
+          .get(import.meta.env.VITE_BACKEND_URL + "/api/products/search/"+query)
+          .then((res) => {
+            console.log(res.data);
+            setProducts(res.data);
+            setLoadingStatus("loaded");
+          })
+          .catch((err) => toast.error("Error loading products"));
+      }
+    }
 
     return (
         <div className="w-full h-full pt-4 relative">
@@ -33,8 +55,8 @@ export default function ProductPage() {
                   type="text"
                   className="w-1/2 p-2 absolute z-50"
                   placeholder="Search Products"
-                  //onChange={search}
-                  //value={query}
+                  onChange={search}
+                  value={query}
                 />
               </div>
           {loadingStatus == "loaded" && (
