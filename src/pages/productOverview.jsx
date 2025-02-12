@@ -11,6 +11,7 @@ export default function ProductOverview() {
   const productId = params.id;
   const [product, setProduct] = useState(null);
   const [status, setStatus] = useState("loading");
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log(productId);
