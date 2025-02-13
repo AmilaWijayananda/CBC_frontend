@@ -34,8 +34,8 @@ export default function Home() {
     };
 
     return (
-        <div className="min-h-screen bg-Background flex flex-col items-center justify-center p-6">
-            <h1 className="text-4xl font-bold text-Text text-center mb-8 animate-fade-in">
+        <div className="min-h-screen bg-Background flex flex-col items-center justify-start pt-24 p-6">
+            <h1 className="text-4xl font-bold text-Text text-center mb-4 animate-fade-in">
                 Welcome to Crystal Beauty Clear Store
             </h1>
 
@@ -64,14 +64,14 @@ export default function Home() {
                                     key={product.productId}
                                     className={`relative transition-transform duration-500 ease-in-out ${index === 1 ? 'scale-110 z-10' : 'scale-90 opacity-80'}`}
                                 >
-                                    <div className="bg-white rounded-lg shadow-lg overflow-hidden w-72">
+                                    <div className="bg-white rounded-lg shadow-lg overflow-hidden w-72 transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
                                         <img
                                             src={product.images[0]}
                                             alt={product.productName}
                                             className="w-full h-56 object-cover"
                                         />
                                         <div className="p-4">
-                                            <h2 className="text-xl font-semibold text-Text transition-colors duration-300">
+                                            <h2 className="text-xl font-semibold text-Text transition-colors duration-300 hover:text-PrimaryGold">
                                                 {product.productName}
                                             </h2>
                                             <p className="text-sm text-Text/80">
