@@ -10,6 +10,7 @@ export default {
         PrimaryGold: '#FFD700',
         SecondaryGold: '#D4AF37',
         Background: '#FFF8E7',
+        SecondaryBackground: '#fff1ce',
         Text: '#333333',
         Accent: '#C0A080',
       },

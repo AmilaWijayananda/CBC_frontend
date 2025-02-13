@@ -9,7 +9,7 @@ export default function Header() {
     return (
       <>
         {isSliderOpen && <NavSlider closeSlider={() => setIsSliderOpen(false)} />}
-        <header className="bg-[#fff1ce] w-full h-[100px] relative flex justify-center items-center shadow-lg">
+        <header className="bg-SecondaryBackground w-full h-[100px] relative flex justify-center items-center shadow-lg">
           {/* Logo */}
           <img
             src="/logo.png"
