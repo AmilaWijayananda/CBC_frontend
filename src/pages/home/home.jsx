@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import HomeProductCard from '../../components/homeProductCard';
+
 
 export default function Home() {
     const [products, setProducts] = useState([]);
@@ -26,11 +27,11 @@ export default function Home() {
     }, []);
 
     const prevSlide = () => {
-        setCurrentIndex((prev) => (prev + 1) % products.length);
+        setCurrentIndex((prev) => (prev - 1 + products.length) % products.length);
     };
 
     const nextSlide = () => {
-        setCurrentIndex((prev) => (prev - 1 + products.length) % products.length);
+        setCurrentIndex((prev) => (prev + 1) % products.length);
     };
 
     return (
@@ -55,31 +56,12 @@ export default function Home() {
                     <div className="flex gap-4 w-full justify-center items-center overflow-hidden">
                         {[...Array(3)].map((_, index) => {
                             const productIndex = (currentIndex + index) % products.length;
-                            const product = products[productIndex];
-                            if (!product) return null;
-
                             return (
-                                <Link
-                                    to={`/productInfo/${product.productId}`}
-                                    key={product.productId}
-                                    className={`relative transition-transform duration-500 ease-in-out ${index === 1 ? 'scale-110 z-10' : 'scale-90 opacity-80'}`}
-                                >
-                                    <div className="bg-white rounded-lg shadow-lg overflow-hidden w-72 transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
-                                        <img
-                                            src={product.images[0]}
-                                            alt={product.productName}
-                                            className="w-full h-56 object-cover"
-                                        />
-                                        <div className="p-4">
-                                            <h2 className="text-xl font-semibold text-Text transition-colors duration-300 hover:text-PrimaryGold">
-                                                {product.productName}
-                                            </h2>
-                                            <p className="text-sm text-Text/80">
-                                                {product.description.substring(0, 100)}...
-                                            </p>
-                                        </div>
-                                    </div>
-                                </Link>
+                                <HomeProductCard 
+                                    key={productIndex} 
+                                    product={products[productIndex]} 
+                                    isActive={index === 1} 
+                                />
                             );
                         })}
                     </div>
