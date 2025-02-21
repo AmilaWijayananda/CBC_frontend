@@ -35,8 +35,9 @@ export default function Home() {
     };
 
     return (
-        <div className="min-h-screen bg-Background flex flex-col items-center justify-start pt-24 p-6">
-            <h1 className="text-4xl font-bold text-Text text-center mb-4 animate-fade-in">
+        
+        <div className="min-h-screen bg-Background flex flex-col items-center relative">
+            <h1 className="text-4xl font-bold text-Text text-center mb-4 pt-8 animate-fade-in">
                 Welcome to Crystal Beauty Clear Store
             </h1>
 
@@ -45,7 +46,7 @@ export default function Home() {
                     <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-PrimaryGold"></div>
                 </div>
             ) : (
-                <div className="relative flex items-center justify-center w-full max-w-4xl">
+                <div className="relative flex items-center justify-center w-full max-w-4xl my-8">
                     <button
                         onClick={prevSlide}
                         className="absolute left-0 p-3 bg-white rounded-full shadow-lg hover:scale-110 transition-transform z-10"
@@ -75,5 +76,7 @@ export default function Home() {
                 </div>
             )}
         </div>
+        
+        
     );
 }
