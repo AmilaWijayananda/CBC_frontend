@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { IoImagesSharp } from "react-icons/io5";
 import AdminBannerPage from "./adminBannerPage";
 import AddBannerForm from "./addBannerForm";
+import EditBannerForm from "./editBannerForm";
 
 export default function AdminHomePage() {
 
@@ -102,7 +103,7 @@ export default function AdminHomePage() {
 
           <Route path="/banner" element={<AdminBannerPage />} />
           <Route path="/banner/addBanner" element={<AddBannerForm/>} />
-          <Route path="/banner/editBanner" element={<EditProductForm/>} />
+          <Route path="/banner/editBanner" element={<EditBannerForm/>} />
         </Routes>}
         {
           user==null && <div className="w-full h-full flex justify-center">
