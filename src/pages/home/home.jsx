@@ -6,25 +6,21 @@ import HomeProductCard from '../../components/homeProductCard';
 
 export default function Home() {
     const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loadingStatus, setLoadingStatus] = useState('loading');
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await axios.get(
-                    `${import.meta.env.VITE_BACKEND_URL}/api/products`
-                );
-                setProducts(response.data);
-            } catch (error) {
-                console.error('Error fetching products:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchProducts();
-    }, []);
+        if (loadingStatus === "loading") {
+          axios
+            .get(import.meta.env.VITE_BACKEND_URL + "/api/products")
+            .then((res) => {
+              console.log(res.data);
+              setProducts(res.data);
+              setLoadingStatus("loaded");
+            })
+            .catch((err) => toast.error("Error loading products"));
+        }
+      }, []);
 
     const prevSlide = () => {
         setCurrentIndex((prev) => (prev - 1 + products.length) % products.length);
@@ -36,17 +32,17 @@ export default function Home() {
 
     return (
         
-        <div className="min-h-screen bg-Background flex flex-col items-center relative">
-            <h1 className="text-4xl font-bold text-Text text-center mb-4 pt-8 animate-fade-in">
-                Welcome to Crystal Beauty Clear Store
-            </h1>
-
-            {loading ? (
-                <div className="flex justify-center items-center h-64">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-PrimaryGold"></div>
+        <div className="w-full h-full flex flex-col relative bg-red-500">
+            <div className="w-full h-full  overflow-y-scroll flex flex-wrap justify-center relative">
+                <div className='w-full bg-blue-300 h-[20%]'>
+                    <h1 className="text-4xl font-bold text-Text text-center mb-4 pt-8 animate-fade-in">
+                    Welcome to Crystal Beauty Clear Store
+                    </h1>
                 </div>
-            ) : (
-                <div className="relative flex items-center justify-center w-full max-w-4xl my-8">
+
+                {loadingStatus == "loaded" && (
+                <div className='w-full  bg-green-300 h-[50%] flex items-center justify-center my-8'>
+                    <div className="relative flex items-center justify-center w-full max-w-4xl my-8">
                     <button
                         onClick={prevSlide}
                         className="absolute left-0 p-3 bg-white rounded-full shadow-lg hover:scale-110 transition-transform z-10"
@@ -54,14 +50,15 @@ export default function Home() {
                         <FaChevronLeft className="w-6 h-6 text-PrimaryGold" />
                     </button>
 
-                    <div className="flex gap-4 w-full justify-center items-center overflow-hidden">
+                    <div className="flex gap-4 w-full justify-center items-center">
                         {[...Array(3)].map((_, index) => {
                             const productIndex = (currentIndex + index) % products.length;
                             return (
                                 <HomeProductCard 
                                     key={productIndex} 
                                     product={products[productIndex]} 
-                                    isActive={index === 1} 
+                                    isActive={index === 1}
+                                    className={index === 1 ? "fixed-height-card" : ""} 
                                 />
                             );
                         })}
@@ -73,8 +70,20 @@ export default function Home() {
                     >
                         <FaChevronRight className="w-6 h-6 text-PrimaryGold" />
                     </button>
+                    </div>
+
                 </div>
-            )}
+                )}
+                {loadingStatus == "loading" && (
+                    <div className="w-full h-full flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-32 w-32  border-2 border-gray-500 border-b-accent border-b-4"></div>
+                    </div>
+                )}
+
+                <div className='w-full bg-yellow-300 h-[40%]'>
+
+                </div>
+            </div>
         </div>
         
         
