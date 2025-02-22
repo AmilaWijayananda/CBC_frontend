@@ -23,69 +23,72 @@ export default function Home() {
       }, []);
 
     const prevSlide = () => {
-        setCurrentIndex((prev) => (prev - 1 + products.length) % products.length);
+        setCurrentIndex((prev) => (prev + 1) % products.length);
+        
     };
 
     const nextSlide = () => {
-        setCurrentIndex((prev) => (prev + 1) % products.length);
+        setCurrentIndex((prev) => (prev - 1 + products.length) % products.length);
+        
     };
 
     return (
-        
         <div className="w-full h-full flex flex-col relative bg-red-500">
-            <div className="w-full h-full  overflow-y-scroll flex flex-wrap justify-center relative">
+            <div className="w-full h-full overflow-y-scroll flex flex-wrap justify-center relative">
+                {/* Header Section */}
                 <div className='w-full bg-blue-300 h-[20%]'>
                     <h1 className="text-4xl font-bold text-Text text-center mb-4 pt-8 animate-fade-in">
-                    Welcome to Crystal Beauty Clear Store
+                        Welcome to Crystal Beauty Clear Store
                     </h1>
                 </div>
-
-                {loadingStatus == "loaded" && (
-                <div className='w-full  bg-green-300 h-[50%] flex items-center justify-center my-8'>
-                    <div className="relative flex items-center justify-center w-full max-w-4xl my-8">
-                    <button
-                        onClick={prevSlide}
-                        className="absolute left-0 p-3 bg-white rounded-full shadow-lg hover:scale-110 transition-transform z-10"
-                    >
-                        <FaChevronLeft className="w-6 h-6 text-PrimaryGold" />
-                    </button>
-
-                    <div className="flex gap-4 w-full justify-center items-center">
-                        {[...Array(3)].map((_, index) => {
-                            const productIndex = (currentIndex + index) % products.length;
-                            return (
-                                <HomeProductCard 
-                                    key={productIndex} 
-                                    product={products[productIndex]} 
-                                    isActive={index === 1}
-                                    className={index === 1 ? "fixed-height-card" : ""} 
-                                />
-                            );
-                        })}
+    
+                {/* Product Carousel Section */}
+                {loadingStatus === "loaded" && (
+                    <div className='w-full bg-green-300 h-[70%] flex items-center justify-center'>
+                        {/* Left Arrow */}
+                        <button
+                            onClick={prevSlide}
+                            className="absolute left-3 lg:left-40 p-3 bg-white rounded-full shadow-lg hover:scale-110 transition-transform z-20"
+                        >
+                            <FaChevronLeft className="w-6 h-6 text-PrimaryGold" />
+                        </button>
+    
+                        {/* Product Cards */}
+                        <div className="flex gap-10 w-full justify-center items-center">
+                            {[...Array(3)].map((_, index) => {
+                                const productIndex = (currentIndex + index) % products.length;
+                                return (
+                                    <HomeProductCard 
+                                        key={productIndex} 
+                                        product={products[productIndex]} 
+                                        isActive={index === 1}
+                                    />
+                                );
+                            })}
+                        </div>
+    
+                        {/* Right Arrow */}
+                        <button
+                            onClick={nextSlide}
+                            className="absolute right-3 lg:right-40 p-3 bg-white rounded-full shadow-lg hover:scale-110 transition-transform z-20"
+                        >
+                            <FaChevronRight className="w-6 h-6 text-PrimaryGold" />
+                        </button>
                     </div>
-
-                    <button
-                        onClick={nextSlide}
-                        className="absolute right-0 p-3 bg-white rounded-full shadow-lg hover:scale-110 transition-transform z-10"
-                    >
-                        <FaChevronRight className="w-6 h-6 text-PrimaryGold" />
-                    </button>
-                    </div>
-
-                </div>
                 )}
-                {loadingStatus == "loading" && (
+    
+                {/* Loading Spinner */}
+                {loadingStatus === "loading" && (
                     <div className="w-full h-full flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-32 w-32  border-2 border-gray-500 border-b-accent border-b-4"></div>
+                        <div className="animate-spin rounded-full h-32 w-32 border-2 border-gray-500 border-b-accent border-b-4"></div>
                     </div>
                 )}
-
+    
+                {/* Footer Section */}
                 <div className='w-full bg-yellow-300 h-[40%]'>
-
+                    {/* Footer content goes here */}
                 </div>
             </div>
         </div>
-        
-        
     );
 }
