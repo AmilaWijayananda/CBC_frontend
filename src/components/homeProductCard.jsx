@@ -7,7 +7,7 @@ export default function HomeProductCard({ product, isActive }) {
     return (
         <Link
             to={`/productInfo/${product.productId}`}
-            className={`relative transition-transform duration-500 ease-in-out ${isActive ? 'scale-110 z-10' : 'scale-90 opacity-80'}`}
+            className={`relative transition-transform duration-500 ease-in-out ${isActive ? 'scale-110 z-10' : 'scale-90'}`}
         >
             <div className="bg-white rounded-lg shadow-lg overflow-hidden w-72 transform transition-all duration-300 hover:scale-105 hover:shadow-xl group">
                 <img
