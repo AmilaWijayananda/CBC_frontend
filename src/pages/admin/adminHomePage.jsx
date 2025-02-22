@@ -7,6 +7,9 @@ import AdminOrdersPage from "./adminOrderPage";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { IoImagesSharp } from "react-icons/io5";
+import AdminBannerPage from "./adminBannerPage";
+import AddBannerForm from "./addBannerForm";
 
 export default function AdminHomePage() {
 
@@ -75,6 +78,14 @@ export default function AdminHomePage() {
             <FaShoppingCart />
             Orders
           </Link>
+
+          <Link
+            className="flex items-center gap-3 px-4 py-2 text-white text-lg hover:bg-blue-600 w-full"
+            to="/admin/banner"
+          >
+            <IoImagesSharp />
+            Banners
+          </Link>
         </nav>
       </div>
 
@@ -88,6 +99,10 @@ export default function AdminHomePage() {
           <Route path="/products/addProduct" element={<AddProductForm/>} />
           <Route path="/products/editProduct" element={<EditProductForm/>} />
           <Route path="/orders" element={<AdminOrdersPage />} />
+
+          <Route path="/banner" element={<AdminBannerPage />} />
+          <Route path="/banner/addBanner" element={<AddBannerForm/>} />
+          <Route path="/banner/editBanner" element={<EditProductForm/>} />
         </Routes>}
         {
           user==null && <div className="w-full h-full flex justify-center">
