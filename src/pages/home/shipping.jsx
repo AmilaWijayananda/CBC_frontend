@@ -57,11 +57,12 @@ export default function ShippingPage() {
     if (!validateInputs()) return;
 
     const token = localStorage.getItem("token");
+    //console.log(token);
     if (!token) {
       toast.error("You must be logged in to place an order.");
       return;
     }
-
+    //console.log(cart);
     axios
       .post(
         import.meta.env.VITE_BACKEND_URL + "/api/orders",
@@ -83,7 +84,7 @@ export default function ShippingPage() {
       })
       .catch((err) => {
         toast.error("Failed to place order. Please try again.");
-        console.error(err);
+        console.error("Error creating order:", err);
       });
   }
 
