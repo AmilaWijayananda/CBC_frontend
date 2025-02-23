@@ -8,6 +8,7 @@ import ShippingPage from './home/shipping';
 import MyOrdersPage from './home/orders';
 import Home from './home/home';
 import ReviewPage from './home/review';
+import ReviewFormPage from './home/reviewForm';
 
 export default function HomePage() {
     return (
@@ -23,6 +24,7 @@ export default function HomePage() {
             <Route path='/shipping' element={<ShippingPage />} />
             <Route path='/orders' element={<MyOrdersPage />} />
             <Route path='/review' element={<ReviewPage />} />
+            <Route path='/leaveReview' element={<ReviewFormPage />} />
           </Routes>
         </div>
         

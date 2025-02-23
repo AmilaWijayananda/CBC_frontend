@@ -2,7 +2,7 @@ import { FaStar, FaRegStar } from "react-icons/fa";
 
 export default function ReviewCard({ review }) {
   // Check if review meets the visibility and rating criteria
-  if (review.status !== "Visible" || review.stars <= 3) {
+  if (review.status !== "Visible") {
     return null;
   }
 
