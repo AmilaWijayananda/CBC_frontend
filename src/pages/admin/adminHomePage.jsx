@@ -11,6 +11,8 @@ import { IoImagesSharp } from "react-icons/io5";
 import AdminBannerPage from "./adminBannerPage";
 import AddBannerForm from "./addBannerForm";
 import EditBannerForm from "./editBannerForm";
+import { TbStarHalfFilled } from "react-icons/tb";
+import ManageReviewForm from "./mangeReviewForm";
 
 export default function AdminHomePage() {
 
@@ -87,6 +89,14 @@ export default function AdminHomePage() {
             <IoImagesSharp />
             Banners
           </Link>
+
+          <Link
+            className="flex items-center gap-3 px-4 py-2 text-white text-lg hover:bg-blue-600 w-full"
+            to="/admin/reviews"
+          >
+            <TbStarHalfFilled />
+            Reviews
+          </Link>
         </nav>
       </div>
 
@@ -104,6 +114,7 @@ export default function AdminHomePage() {
           <Route path="/banner" element={<AdminBannerPage />} />
           <Route path="/banner/addBanner" element={<AddBannerForm/>} />
           <Route path="/banner/editBanner" element={<EditBannerForm/>} />
+          <Route path="/reviews" element={<ManageReviewForm/>} />
         </Routes>}
         {
           user==null && <div className="w-full h-full flex justify-center">
