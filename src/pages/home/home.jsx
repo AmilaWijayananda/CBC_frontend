@@ -3,6 +3,8 @@ import axios from 'axios';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import HomeProductCard from '../../components/homeProductCard';
 import BannerCard from '../../components/bannerCard';
+import ReviewCard from '../../components/reviewCard';
+
 
 
 export default function Home() {
@@ -12,6 +14,9 @@ export default function Home() {
     const [banners, setBanners] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
+    const [reviews, setReviews] = useState([]);
+    const [visibleReviews, setVisibleReviews] = useState([]);
+    
 
     useEffect(() => {
         if (BannerLoadingStatus === "loading") {
@@ -50,6 +55,29 @@ export default function Home() {
             .catch((err) => toast.error("Error loading products"));
         }
       }, []);
+
+      useEffect(() => {
+        axios
+            .get(import.meta.env.VITE_BACKEND_URL + "/api/review")
+            .then((res) => {
+                const filteredReviews = res.data.filter(review => review.stars > 3);
+                setReviews(filteredReviews);
+                setVisibleReviews(filteredReviews.slice(0, 3));
+            })
+            .catch((err) => console.error("Error loading reviews", err));
+    }, []);
+
+    useEffect(() => {
+        if (reviews.length > 3) {
+            const interval = setInterval(() => {
+                setVisibleReviews(prev => {
+                    const nextIndex = (reviews.indexOf(prev[0]) + 3) % reviews.length;
+                    return reviews.slice(nextIndex, nextIndex + 3);
+                });
+            }, 5000);
+            return () => clearInterval(interval);
+        }
+    }, [reviews]);
 
     const prevSlide = () => {
         setCurrentIndex((prev) => (prev + 1) % products.length);
@@ -131,9 +159,20 @@ export default function Home() {
                         <div className="animate-spin rounded-full h-32 w-32 border-2 border-gray-500 border-b-accent border-b-4"></div>
                     </div>
                 )}
+
+                {/* review Section */}
+                <div className='w-full bg-yellow-300 h-[40%] flex items-center justify-center p-4'>
+                    <div className='w-full max-w-5xl flex justify-around gap-4 overflow-hidden'>
+                        {visibleReviews.map((review, index) => (
+                            <div key={index} className="animate-fade-in transition-all duration-1000">
+                                <ReviewCard review={review} />
+                            </div>
+                        ))}
+                    </div>
+                </div>
     
                 {/* Footer Section */}
-                <div className='w-full bg-yellow-300 h-[40%]'>
+                <div className='w-full bg-green-300 h-[40%]'>
                     {/* Footer content goes here */}
                 </div>
             </div>
