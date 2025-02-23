@@ -36,6 +36,8 @@ export default function ShippingPage() {
         console.error(err);
       });
   }, [cart, navigate]);
+  console.log("cart", cart);
+  console.log("total", total);
 
   function validateInputs() {
     if (!name.trim()) {
@@ -57,7 +59,7 @@ export default function ShippingPage() {
     if (!validateInputs()) return;
 
     const token = localStorage.getItem("token");
-    //console.log(token);
+    console.log("token",token);
     if (!token) {
       toast.error("You must be logged in to place an order.");
       return;
