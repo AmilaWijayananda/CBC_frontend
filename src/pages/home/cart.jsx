@@ -67,7 +67,7 @@ export default function Cart() {
         Grand Total: LKR. {total.toFixed(2)}
       </h1>
 
-      <button onClick={onOrderCheckOutClick} className="bg-accent hover:bg-accent-light text-white p-2 rounded-lg w-[300px]">
+      <button onClick={onOrderCheckOutClick} className="bg-accent hover:bg-accent-light text-PrimaryGold p-2 rounded-lg w-[300px]">
         Checkout
       </button>
     </div>

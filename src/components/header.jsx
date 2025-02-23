@@ -55,6 +55,12 @@ export default function Header() {
             >
               Cart
             </Link>
+            <Link
+              to="/review"
+              className="text-Text text-2xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
+            >
+              Reviews
+            </Link>
           </div>
         </header>
       </>
