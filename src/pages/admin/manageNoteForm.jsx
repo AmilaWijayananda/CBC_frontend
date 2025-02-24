@@ -83,8 +83,10 @@ export default function ManageNoteForm() {
                     Authorization: `Bearer ${token}`
                 }
             });
+            // Append the new note to the existing notes state
             setNotes([...notes, response.data]);
             toast.success("Note Added Successfully");
+            // Reset the new note form
             setNewNote({
                 page: "Home",
                 topic: "",
