@@ -191,7 +191,7 @@ export default function Home() {
         {/* Product Carousel Section */}
         {loadingStatus === "loaded" && (
           <div
-            className="w-full h-[70%] flex items-center justify-center"
+            className="w-full h-[80%] flex items-center justify-center"
             style={{
               backgroundImage: "url('/public/B_Image1.jpg')",
               backgroundSize: "cover",
