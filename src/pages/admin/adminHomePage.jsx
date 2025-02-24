@@ -14,6 +14,7 @@ import EditBannerForm from "./editBannerForm";
 import { TbStarHalfFilled } from "react-icons/tb";
 import ManageReviewForm from "./mangeReviewForm";
 import { VscNote } from "react-icons/vsc";
+import ManageNoteForm from "./manageNoteForm";
 
 export default function AdminHomePage() {
 
@@ -124,7 +125,7 @@ export default function AdminHomePage() {
           <Route path="/banner/addBanner" element={<AddBannerForm/>} />
           <Route path="/banner/editBanner" element={<EditBannerForm/>} />
           <Route path="/reviews" element={<ManageReviewForm/>} />
-          <Route path="/notes" element={<h1>Notes</h1>} />
+          <Route path="/notes" element={<ManageNoteForm/>} />
         </Routes>}
         {
           user==null && <div className="w-full h-full flex justify-center">
