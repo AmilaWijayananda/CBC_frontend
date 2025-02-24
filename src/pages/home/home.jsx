@@ -6,6 +6,7 @@ import BannerCard from "../../components/bannerCard";
 import ReviewCard from "../../components/reviewCard";
 import ImageCard from "../../components/imagesCard";
 import HomeNoteCard from "../../components/homeNoteCard";
+import Footer from "../../components/footer";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -297,7 +298,7 @@ export default function Home() {
 
         {/* Footer Section */}
         <div className="w-full bg-green-300 h-[40%]">
-          {/* Footer content goes here */}
+          <Footer />
         </div>
       </div>
     </div>
