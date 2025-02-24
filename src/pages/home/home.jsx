@@ -253,7 +253,7 @@ export default function Home() {
             {/* Notes Section */}
             {notes.length > 0 && (
               <div
-                className="relative h-64 overflow-hidden bg-white rounded-lg shadow-lg cursor-pointer"
+                className="relative h-full overflow-hidden bg-white rounded-lg shadow-lg cursor-pointer"
                 onClick={handleNoteClick}
                 onMouseEnter={handleHover}
                 onMouseLeave={handleLeave}
@@ -272,7 +272,7 @@ export default function Home() {
                   }}
                   key={currentNoteIndex} // Force re-render when note changes
                 >
-                  <div ref={noteContentRef} className="h-64 overflow-y-auto">
+                  <div ref={noteContentRef} className="h-full overflow-y-auto">
                     <HomeNoteCard note={notes[currentNoteIndex]} />
                   </div>
                 </div>
