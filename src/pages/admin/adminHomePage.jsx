@@ -13,6 +13,7 @@ import AddBannerForm from "./addBannerForm";
 import EditBannerForm from "./editBannerForm";
 import { TbStarHalfFilled } from "react-icons/tb";
 import ManageReviewForm from "./mangeReviewForm";
+import { VscNote } from "react-icons/vsc";
 
 export default function AdminHomePage() {
 
@@ -97,6 +98,14 @@ export default function AdminHomePage() {
             <TbStarHalfFilled />
             Reviews
           </Link>
+
+          <Link
+            className="flex items-center gap-3 px-4 py-2 text-white text-lg hover:bg-blue-600 w-full"
+            to="/admin/notes"
+          >
+            <VscNote />
+            Notes
+          </Link>
         </nav>
       </div>
 
@@ -115,6 +124,7 @@ export default function AdminHomePage() {
           <Route path="/banner/addBanner" element={<AddBannerForm/>} />
           <Route path="/banner/editBanner" element={<EditBannerForm/>} />
           <Route path="/reviews" element={<ManageReviewForm/>} />
+          <Route path="/notes" element={<h1>Notes</h1>} />
         </Routes>}
         {
           user==null && <div className="w-full h-full flex justify-center">
