@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import HomeProductCard from "../../components/homeProductCard";
 import BannerCard from "../../components/bannerCard";
 import ReviewCard from "../../components/reviewCard";
 import ImageCard from "../../components/imagesCard";
+import HomeNoteCard from "../../components/homeNoteCard";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -17,6 +18,13 @@ export default function Home() {
   const [visibleReviews, setVisibleReviews] = useState([]);
   const [allImages, setAllImages] = useState([]); // Flattened array of all images
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
+
+  // New state for notes
+  const [notes, setNotes] = useState([]);
+  const [currentNoteIndex, setCurrentNoteIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const noteContentRef = useRef(null);
+  const [isScrollDelayed, setIsScrollDelayed] = useState(false);
 
   //const [imgLoadingStatus, setImgLoadingStatus] = useState('loading');
   //const [images, setImages] = useState([]);
@@ -105,6 +113,57 @@ export default function Home() {
     setCurrentIndex((prev) => (prev - 1 + products.length) % products.length);
   };
 
+  // Fetch notes from the backend
+  useEffect(() => {
+    axios
+      .get(import.meta.env.VITE_BACKEND_URL + "/api/note")
+      .then((res) => {
+        const filteredNotes = res.data.filter(
+          (note) => note.page === "Home" && note.status === "Visible"
+        );
+        setNotes(filteredNotes);
+      })
+      .catch((err) => toast.error("Error loading notes"));
+  }, []);
+
+  // Automatically change notes every 5 seconds
+  useEffect(() => {
+    if (notes.length > 0 && !isHovered) {
+      const interval = setInterval(() => {
+        setCurrentNoteIndex((prevIndex) => (prevIndex + 1) % notes.length);
+      }, 5000); // Change every 5 seconds
+      return () => clearInterval(interval);
+    }
+  }, [notes, isHovered]);
+
+  // Handle click to change to the next note
+  const handleNoteClick = () => {
+    // Reset scroll position to top
+    if (noteContentRef.current) {
+      noteContentRef.current.scrollTop = 0; // Reset scroll position
+    }
+    // Change to the next note
+    setCurrentNoteIndex((prevIndex) => (prevIndex + 1) % notes.length);
+    setIsScrollDelayed(true); // Enable scroll delay
+    setTimeout(() => {
+      setIsScrollDelayed(false); // Disable scroll delay after 3 seconds
+    }, 3000);
+  };
+
+  // Handle hover to pause automatic change and enable auto-scroll
+  const handleHover = () => {
+    setIsHovered(true);
+    setIsScrollDelayed(true); // Enable scroll delay
+    setTimeout(() => {
+      setIsScrollDelayed(false); // Disable scroll delay after 3 seconds
+    }, 3000);
+  };
+
+  const handleLeave = () => {
+    setIsHovered(false);
+    setIsScrollDelayed(false); // Disable scroll delay immediately
+  };
+
   return (
     <div className="w-full h-full flex flex-col relative bg-Background">
       <div className="w-full h-full overflow-y-scroll flex flex-wrap justify-center relative">
@@ -190,8 +249,35 @@ export default function Home() {
           </div>
 
           {/* Other Content Section (70%) */}
-          <div className="w-[70%] h-full bg-pink-500">
-            {/* Other content goes here */}
+          <div className="w-[70%] h-full bg-pink-500 p-6">
+            {/* Notes Section */}
+            {notes.length > 0 && (
+              <div
+                className="relative h-64 overflow-hidden bg-white rounded-lg shadow-lg cursor-pointer"
+                onClick={handleNoteClick}
+                onMouseEnter={handleHover}
+                onMouseLeave={handleLeave}
+              >
+                <div
+                  className={`absolute top-0 left-0 w-full transition-transform duration-1000 ${
+                    isHovered && !isScrollDelayed
+                      ? "translate-y-full"
+                      : "translate-y-0"
+                  }`}
+                  style={{
+                    animation:
+                      isHovered && !isScrollDelayed
+                        ? "scroll 10s linear infinite"
+                        : "none",
+                  }}
+                  key={currentNoteIndex} // Force re-render when note changes
+                >
+                  <div ref={noteContentRef} className="h-64 overflow-y-auto">
+                    <HomeNoteCard note={notes[currentNoteIndex]} />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
