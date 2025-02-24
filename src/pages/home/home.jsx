@@ -17,26 +17,46 @@ export default function Home() {
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const [reviews, setReviews] = useState([]);
   const [visibleReviews, setVisibleReviews] = useState([]);
-  const [allImages, setAllImages] = useState([]); // Flattened array of all images
+  const [allImages, setAllImages] = useState([]);
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
-
-  // New state for notes
   const [notes, setNotes] = useState([]);
   const [currentNoteIndex, setCurrentNoteIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const noteContentRef = useRef(null);
   const [isScrollDelayed, setIsScrollDelayed] = useState(false);
 
-  //const [imgLoadingStatus, setImgLoadingStatus] = useState('loading');
-  //const [images, setImages] = useState([]);
-  //const [currentImgIndex, setCurrentImgIndex] = useState(0);
+  // Intersection Observer for scroll animations
+  const sectionRefs = useRef([]);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-slide-up");
+          }
+        });
+      },
+      { threshold: 0.1 } // Trigger when 10% of the section is visible
+    );
+
+    sectionRefs.current.forEach((section) => {
+      if (section) observer.observe(section);
+    });
+
+    return () => {
+      sectionRefs.current.forEach((section) => {
+        if (section) observer.unobserve(section);
+      });
+    };
+  }, []);
+
+  // Fetch banners
   useEffect(() => {
     if (BannerLoadingStatus === "loading") {
       axios
         .get(import.meta.env.VITE_BACKEND_URL + "/api/banner")
         .then((res) => {
-          console.log(res.data);
           setBanners(res.data);
           setBannerLoadingStatus("loaded");
         })
@@ -44,27 +64,24 @@ export default function Home() {
     }
   }, []);
 
-  // Auto-change banners every 4 seconds
+  // Auto-change banners
   useEffect(() => {
     if (banners.length > 0) {
       const interval = setInterval(() => {
         setCurrentBannerIndex((prevIndex) => (prevIndex + 1) % banners.length);
       }, 4000);
-
-      return () => clearInterval(interval); // Cleanup on unmount
+      return () => clearInterval(interval);
     }
   }, [banners]);
 
+  // Fetch products
   useEffect(() => {
     if (loadingStatus === "loading") {
       axios
         .get(import.meta.env.VITE_BACKEND_URL + "/api/products")
         .then((res) => {
-          console.log(res.data);
           setProducts(res.data);
           setLoadingStatus("loaded");
-
-          // Flatten all product images into a single array
           const images = res.data.flatMap((product) => product.images);
           setAllImages(images);
         })
@@ -72,17 +89,17 @@ export default function Home() {
     }
   }, []);
 
-  // Auto-change images every 5 seconds
+  // Auto-change images
   useEffect(() => {
     if (allImages.length > 0) {
       const interval = setInterval(() => {
         setCurrentImgIndex((prevIndex) => (prevIndex + 1) % allImages.length);
       }, 5000);
-
-      return () => clearInterval(interval); // Cleanup on unmount
+      return () => clearInterval(interval);
     }
   }, [allImages]);
 
+  // Fetch reviews
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND_URL + "/api/review")
@@ -94,6 +111,7 @@ export default function Home() {
       .catch((err) => console.error("Error loading reviews", err));
   }, []);
 
+  // Auto-change reviews
   useEffect(() => {
     if (reviews.length > 3) {
       const interval = setInterval(() => {
@@ -106,15 +124,7 @@ export default function Home() {
     }
   }, [reviews]);
 
-  const prevSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % products.length);
-  };
-
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + products.length) % products.length);
-  };
-
-  // Fetch notes from the backend
+  // Fetch notes
   useEffect(() => {
     axios
       .get(import.meta.env.VITE_BACKEND_URL + "/api/note")
@@ -127,70 +137,79 @@ export default function Home() {
       .catch((err) => toast.error("Error loading notes"));
   }, []);
 
-  // Automatically change notes every 5 seconds
+  // Auto-change notes
   useEffect(() => {
     if (notes.length > 0 && !isHovered) {
       const interval = setInterval(() => {
         setCurrentNoteIndex((prevIndex) => (prevIndex + 1) % notes.length);
-      }, 5000); // Change every 5 seconds
+      }, 5000);
       return () => clearInterval(interval);
     }
   }, [notes, isHovered]);
 
-  // Handle click to change to the next note
+  // Handle note click
   const handleNoteClick = () => {
-    // Reset scroll position to top
     if (noteContentRef.current) {
-      noteContentRef.current.scrollTop = 0; // Reset scroll position
+      noteContentRef.current.scrollTop = 0;
     }
-    // Change to the next note
     setCurrentNoteIndex((prevIndex) => (prevIndex + 1) % notes.length);
-    setIsScrollDelayed(true); // Enable scroll delay
+    setIsScrollDelayed(true);
     setTimeout(() => {
-      setIsScrollDelayed(false); // Disable scroll delay after 3 seconds
+      setIsScrollDelayed(false);
     }, 3000);
   };
 
-  // Handle hover to pause automatic change and enable auto-scroll
+  // Handle hover
   const handleHover = () => {
     setIsHovered(true);
-    setIsScrollDelayed(true); // Enable scroll delay
+    setIsScrollDelayed(true);
     setTimeout(() => {
-      setIsScrollDelayed(false); // Disable scroll delay after 3 seconds
+      setIsScrollDelayed(false);
     }, 3000);
   };
 
+  // Handle leave
   const handleLeave = () => {
     setIsHovered(false);
-    setIsScrollDelayed(false); // Disable scroll delay immediately
+    setIsScrollDelayed(false);
+  };
+
+  // Product carousel navigation
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + products.length) % products.length);
+  };
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % products.length);
   };
 
   return (
-    <div className="w-full h-full flex flex-col relative bg-Background">
-      <div className="w-full h-full overflow-y-scroll flex flex-wrap justify-center relative">
+    <div className="w-full h-full flex flex-col relative  bg-Background">
+      <div className="w-full h-full overflow-y-scroll flex flex-wrap overflow-x-hidden justify-center relative">
         {/* Header Section */}
-        <div className="w-full bg-Background h-[10%]">
-          <h1 className="text-4xl font-bold text-Text text-center mb-4 pt-3 animate-fade-in">
+        <div
+          ref={(el) => (sectionRefs.current[0] = el)}
+          className="w-full bg-Background h-[10%] animate-fade-in"
+        >
+          <h1 className="text-xl md:text-4xl font-bold text-Text text-center mb-4 pt-3 px-4">
             Welcome to Crystal Beauty Clear Store
           </h1>
         </div>
 
         {/* Auto-Sliding Banner Section */}
         {BannerLoadingStatus === "loaded" && banners.length > 0 && (
-          <div className="w-full h-[60%] flex items-center justify-center overflow-hidden border-y-4 border-PrimaryGold mt-4 mb-4 shadow-lg shadow-yellow-500/50 ">
+          <div
+            ref={(el) => (sectionRefs.current[1] = el)}
+            className="w-full h-[60%] flex items-center justify-center overflow-hidden border-y-4 border-PrimaryGold mt-4 mb-4 shadow-lg shadow-yellow-500/50"
+          >
             <BannerCard banner={banners[currentBannerIndex]} />
-          </div>
-        )}
-
-        {BannerLoadingStatus === "loading" && (
-          <div className="w-full h-full flex items-center justify-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-2 border-gray-500 border-b-accent border-b-4"></div>
           </div>
         )}
 
         {/* Product Carousel Section */}
         {loadingStatus === "loaded" && (
           <div
+            ref={(el) => (sectionRefs.current[2] = el)}
             className="w-full h-[80%] flex items-center justify-center"
             style={{
               backgroundImage: "url('/public/B_Image1.jpg')",
@@ -230,18 +249,13 @@ export default function Home() {
           </div>
         )}
 
-        {/* Loading Spinner */}
-        {loadingStatus === "loading" && (
-          <div className="w-full h-full flex items-center justify-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-2 border-gray-500 border-b-accent border-b-4"></div>
-          </div>
-        )}
-
         {/* Middle Section */}
-        <div className="w-full bg-green-500 h-[80%] mt-6 mb-6 flex flex-horizontal">
+        <div
+          ref={(el) => (sectionRefs.current[3] = el)}
+          className="w-full min-h-[600px] lg:min-h-[400px] mt-6 mb-6 flex flex-col lg:flex-row"
+        >
           {/* Image Section (30%) */}
-          <div className="w-[30%] h-full bg-Background flex items-center justify-center">
-            {/* Fixed Circular Container */}
+          <div className="w-full lg:w-[30%] h-full bg-Background flex items-center justify-center p-4">
             <div className="w-96 h-96 rounded-full overflow-hidden border-2 border-PrimaryGold shadow-lg shadow-yellow-500/50">
               {allImages.length > 0 && (
                 <ImageCard image={allImages[currentImgIndex]} />
@@ -249,12 +263,11 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Other Content Section (70%) */}
-          <div className="w-[70%] h-full bg-pink-500 p-6">
-            {/* Notes Section */}
+          {/* Notes Section (70%) */}
+          <div className="w-full lg:w-[70%] h-full p-4">
             {notes.length > 0 && (
               <div
-                className="relative h-full overflow-hidden bg-white rounded-lg shadow-lg cursor-pointer"
+                className="relative h-[400px] lg:h-full overflow-hidden bg-white rounded-lg shadow-lg cursor-pointer border-2 border-PrimaryGold"
                 onClick={handleNoteClick}
                 onMouseEnter={handleHover}
                 onMouseLeave={handleLeave}
@@ -271,7 +284,7 @@ export default function Home() {
                         ? "scroll 10s linear infinite"
                         : "none",
                   }}
-                  key={currentNoteIndex} // Force re-render when note changes
+                  key={currentNoteIndex}
                 >
                   <div ref={noteContentRef} className="h-full overflow-y-auto">
                     <HomeNoteCard note={notes[currentNoteIndex]} />
@@ -282,13 +295,16 @@ export default function Home() {
           </div>
         </div>
 
-        {/* review Section */}
-        <div className="w-full bg-yellow-300 h-[40%] flex items-center justify-center p-4">
-          <div className="w-full max-w-5xl flex justify-around gap-4 overflow-hidden">
+        {/* Review Section */}
+        <div
+          ref={(el) => (sectionRefs.current[4] = el)}
+          className="w-full h-[500px] lg:h-[400px] flex items-center justify-center p-4 bg-SecondaryBackground border-t-2 border-PrimaryGold shadow-lg overflow-y-auto"
+        >
+          <div className="w-full max-w-5xl flex flex-col lg:flex-row justify-around gap-4">
             {visibleReviews.map((review, index) => (
               <div
                 key={index}
-                className="animate-fade-in transition-all duration-1000"
+                className="animate-fade-in transition-all duration-1000 w-full lg:w-1/3"
               >
                 <ReviewCard review={review} />
               </div>
@@ -297,7 +313,10 @@ export default function Home() {
         </div>
 
         {/* Footer Section */}
-        <div className="w-full bg-green-300 h-[40%]">
+        <div
+          ref={(el) => (sectionRefs.current[5] = el)}
+          className="w-full h-[40%] bg-Background border-t-2 border-PrimaryGold shadow-lg"
+        >
           <Footer />
         </div>
       </div>
