@@ -63,7 +63,7 @@ export default function ProductOverview() {
           </div>
 
           {/* Product Details */}
-          <div className="w-full lg:w-[65%] h-full p-4 flex flex-col justify-center text-center lg:text-left">
+          <div className="w-full lg:w-[65%] h-full p-4 flex flex-col  text-center lg:text-left">
             {/* Product Name */}
             <h1 className="text-2xl lg:text-3xl font-bold text-Text">
               {product.productName}
