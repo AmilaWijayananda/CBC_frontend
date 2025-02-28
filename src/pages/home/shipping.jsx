@@ -153,7 +153,7 @@ export default function ShippingPage() {
         </div>
 
         {/* Total Section */}
-        <div className="mt-4 text-center text-left">
+        <div className="mt-4 text-center">
           <h1 className="text-lg font-bold text-Text mb-2">
             Total: LKR. {labeledTotal.toFixed(2)}
           </h1>
