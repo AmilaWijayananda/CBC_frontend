@@ -52,7 +52,7 @@ export default function EditBannerForm() {
           const token = localStorage.getItem("token")
 
           try {
-            await axios.put('http://localhost:5000/api/banner/'+banner.bannerId,bannerData, {
+            await axios.put(import.meta.env.VITE_BACKEND_URL + '/api/banner/'+banner.bannerId,bannerData, {
               headers: {
                 Authorization: `Bearer ${token}`
               }
