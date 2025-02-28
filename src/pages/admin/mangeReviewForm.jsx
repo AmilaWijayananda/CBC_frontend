@@ -12,7 +12,7 @@ export default function ManageReviewForm() {
         const fetchReviews = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const response = await axios.get('http://localhost:5000/api/review', {
+                const response = await axios.get(import.meta.env.VITE_BACKEND_URL + '/api/review', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -48,7 +48,7 @@ export default function ManageReviewForm() {
         const token = localStorage.getItem("token");
 
         try {
-            await axios.put(`http://localhost:5000/api/review/${reviewId}`, reviewData, {
+            await axios.put(import.meta.env.VITE_BACKEND_URL + `/api/review/${reviewId}`, reviewData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
