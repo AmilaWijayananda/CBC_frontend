@@ -11,6 +11,7 @@ import ReviewPage from './home/review';
 import ReviewFormPage from './home/reviewForm';
 import Footer from '../components/footer';
 import AboutPage from './home/about';
+import ContactPage from './home/contact';
 
 export default function HomePage() {
     return (
@@ -28,6 +29,7 @@ export default function HomePage() {
             <Route path='/review' element={<ReviewPage />} />
             <Route path='/leaveReview' element={<ReviewFormPage />} />
             <Route path='/about' element={<AboutPage />} />
+            <Route path='/contact' element={<ContactPage />} />
           </Routes>
           
         </div>
