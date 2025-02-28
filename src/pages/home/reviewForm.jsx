@@ -8,6 +8,8 @@ export default function ReviewFormPage() {
   const [review, setReview] = useState("");
   const [stars, setStars] = useState(1);
   const [email, setEmail] = useState("");
+  const [loadingStatus, setLoadingStatus] = useState("loading");
+  const [dropdownOpen, setDropdownOpen] = useState(false); // Controls dropdown visibility
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -17,6 +19,7 @@ export default function ReviewFormPage() {
       return;
     }
 
+    setLoadingStatus("loading");
     axios
       .get(import.meta.env.VITE_BACKEND_URL + "/api/users", {
         headers: {
@@ -25,10 +28,12 @@ export default function ReviewFormPage() {
       })
       .then((res) => {
         setEmail(res.data.email);
+        setLoadingStatus("loaded");
       })
       .catch((err) => {
         toast.error("Failed to fetch user details.");
         console.error(err);
+        setLoadingStatus("error");
       });
   }, [navigate]);
 
@@ -44,6 +49,7 @@ export default function ReviewFormPage() {
       return;
     }
 
+    setLoadingStatus("loading");
     axios
       .post(
         import.meta.env.VITE_BACKEND_URL + "/api/review",
@@ -56,46 +62,81 @@ export default function ReviewFormPage() {
       )
       .then(() => {
         toast.success("Review submitted successfully!");
-        navigate("/");
+        navigate("/review");
       })
       .catch((err) => {
         toast.error("Failed to submit review. Please try again.");
         console.error(err);
+        setLoadingStatus("error");
       });
   }
 
   return (
-    <div className="w-full h-full bg-gray-100 p-4">
-      <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
-        <h1 className="text-2xl font-bold mb-4">Leave a Review</h1>
-        <div className="mb-4">
-          <label className="block font-medium text-gray-700 mb-1">Review</label>
-          <textarea
-            className="w-full p-2 border border-gray-300 rounded-md"
-            value={review}
-            onChange={(e) => setReview(e.target.value)}
-            placeholder="Write your review here..."
-          />
+    <div className="w-full h-full bg-Background p-4">
+      {/* Loading Spinner */}
+      {loadingStatus === "loading" && (
+        <div className="w-full h-full flex justify-center items-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-PrimaryGold"></div>
         </div>
-        <div className="mb-4">
-          <label className="block font-medium text-gray-700 mb-1">Stars</label>
-          <select
-            className="w-full p-2 border border-gray-300 rounded-md"
-            value={stars}
-            onChange={(e) => setStars(parseInt(e.target.value))}
+      )}
+
+      {/* Main Content */}
+      {loadingStatus === "loaded" && (
+        <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
+          <h1 className="text-2xl font-bold text-Text mb-4">Leave a Review</h1>
+          <div className="mb-4">
+            <label className="block font-medium text-Text mb-1">Review</label>
+            <textarea
+              className="w-full p-2 border border-PrimaryGold rounded-md focus:outline-none focus:border-SecondaryGold"
+              value={review}
+              onChange={(e) => setReview(e.target.value)}
+              placeholder="Write your review here..."
+            />
+          </div>
+
+          {/* Custom Stars Dropdown */}
+          <div className="mb-4 relative">
+            <label className="block font-medium text-Text mb-1">Stars</label>
+            <div
+              className="w-full p-2 border border-PrimaryGold rounded-md bg-white cursor-pointer"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+            >
+              {stars} Stars
+            </div>
+
+            {dropdownOpen && (
+              <ul className="absolute left-0 w-full bg-white border border-PrimaryGold shadow-md rounded-md mt-1 z-50">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <li
+                    key={star}
+                    className="p-2 hover:bg-SecondaryGold cursor-pointer text-center"
+                    onClick={() => {
+                      setStars(star);
+                      setDropdownOpen(false);
+                    }}
+                  >
+                    {star} Stars
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <button
+            className="bg-PrimaryGold text-Text font-semibold py-2 px-4 rounded-lg w-full hover:bg-SecondaryGold hover:shadow-lg transition-all duration-300"
+            onClick={submitReview}
           >
-            {[1, 2, 3, 4, 5].map((star) => (
-              <option key={star} value={star}>{star} Stars</option>
-            ))}
-          </select>
+            Submit Review
+          </button>
         </div>
-        <button
-          className="bg-blue-600 hover:bg-blue-500 text-white py-2 px-4 rounded-lg w-full"
-          onClick={submitReview}
-        >
-          Submit Review
-        </button>
-      </div>
+      )}
+
+      {/* Error State */}
+      {loadingStatus === "error" && (
+        <div className="w-full h-full flex justify-center items-center">
+          <p className="text-Text text-xl">Failed to load the form. Please try again.</p>
+        </div>
+      )}
     </div>
   );
 }
