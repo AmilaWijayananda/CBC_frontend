@@ -15,7 +15,7 @@ export default function ProductOverview() {
 
   useEffect(() => {
     console.log(productId);
-    axios.get("http://localhost:5000/api/products/" + productId).then((res) => {
+    axios.get(import.meta.env.VITE_BACKEND_URL + "/api/products/" + productId).then((res) => {
       console.log(res.data);
 
       //if null
