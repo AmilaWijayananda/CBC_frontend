@@ -34,7 +34,7 @@ export default function AddBannerForm() {
           const token = localStorage.getItem("token")
 
           try {
-            await axios.post('http://localhost:5000/api/banner',banner, {
+            await axios.post(import.meta.env.VITE_BACKEND_URL +"/api/banner",banner, {
               headers: {
                 Authorization: `Bearer ${token}`
               }
