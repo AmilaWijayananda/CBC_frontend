@@ -156,7 +156,7 @@ export default function ManageNoteForm() {
         <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
             <div className="bg-white w-full max-w-6xl p-6 rounded-lg shadow-lg">
                 <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
-                    Manage Notes
+                    Manage Notes in Pages
                 </h1>
                 <div className="mb-6">
                     <h2 className="text-xl font-semibold text-gray-700 mb-4">Add New Note</h2>
@@ -169,6 +169,7 @@ export default function ManageNoteForm() {
                         >
                             <option value="Home">Home</option>
                             <option value="About">About</option>
+                            <option value="Contact">Contact</option> {/* Added Contact option */}
                         </select>
                         <input
                             type="text"
@@ -185,7 +186,7 @@ export default function ManageNoteForm() {
                             placeholder="Note"
                             className="w-full px-2 py-1 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none text-sm"
                         />
-                        {newNote.page === "About" && (
+                        {(newNote.page === "About" || newNote.page === "Contact") && ( // Added Contact condition
                             <>
                                 <input
                                     type="text"
@@ -306,6 +307,7 @@ export default function ManageNoteForm() {
                                         >
                                             <option value="Home">Home</option>
                                             <option value="About">About</option>
+                                            <option value="Contact">Contact</option> {/* Added Contact option */}
                                         </select>
                                     </td>
                                     <td className="p-2">{new Date(note.date).toLocaleDateString()}</td>
