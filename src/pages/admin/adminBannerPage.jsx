@@ -13,7 +13,7 @@ export default function AdminBannerPage() {
 
     useEffect(() => {
         if(!bannerLoaded){
-            axios.get('http://localhost:5000/api/banner').then
+            axios.get(import.meta.env.VITE_BACKEND_URL + "/api/banner").then
             ((res)=>{
             console.log(res.data);
             setBanner(res.data);
@@ -75,7 +75,7 @@ export default function AdminBannerPage() {
                       onClick={()=>{
                         const token = localStorage.getItem("token");
 
-                        axios.delete(`http://localhost:5000/api/banner/${banner.bannerId}`, {
+                        axios.delete(import.meta.env.VITE_BACKEND_URL + `/api/banner/${banner.bannerId}`, {
                           headers: {
                             Authorization: `Bearer ${token}`,
                           },
