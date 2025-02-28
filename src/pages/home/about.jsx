@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Footer from "../../components/footer";
+import { FaGem, FaEye, FaBullseye, FaHeart } from "react-icons/fa"; // Icons for subtopics
 
 export default function AboutPage() {
   const [notes, setNotes] = useState([]);
@@ -79,9 +80,9 @@ export default function AboutPage() {
           {/* Display Notes */}
           {filteredNotes.length > 0 ? (
             filteredNotes.map((note) => (
-              <div key={note._id} className="w-full mb-8">
+              <div key={note._id} className="w-full mb-8 text-center">
                 <h1 className="text-2xl font-bold text-Text mb-4">{note.topic}</h1>
-                <div className="text-Text text-justify leading-relaxed">
+                <div className="text-Text leading-relaxed">
                   {note.note.split("\n\n").map((paragraph, index) => (
                     <p key={index} className="mb-4">
                       {paragraph}
@@ -91,39 +92,51 @@ export default function AboutPage() {
 
                 {/* Display Subnotes */}
                 {note.subnote && note.subnote.length > 0 && (
-                  <div className="mt-6">
+                  <div className="mt-6 space-y-6">
                     {note.subnote.map((sub, subIndex) => (
                       <div key={subIndex} className="space-y-4">
                         {sub.subtopic1 && (
-                          <div>
+                          <div className="flex flex-col items-center space-y-2">
+                            <FaGem className="text-PrimaryGold text-2xl" />
                             <h2 className="text-xl font-semibold text-Text">
                               {sub.subtopic1}
                             </h2>
-                            <p className="text-Text">{sub.subnote1}</p>
+                            <p className="text-Text whitespace-pre-line">
+                              {sub.subnote1}
+                            </p>
                           </div>
                         )}
                         {sub.subtopic2 && (
-                          <div>
+                          <div className="flex flex-col items-center space-y-2">
+                            <FaEye className="text-PrimaryGold text-2xl" />
                             <h2 className="text-xl font-semibold text-Text">
                               {sub.subtopic2}
                             </h2>
-                            <p className="text-Text">{sub.subnote2}</p>
+                            <p className="text-Text whitespace-pre-line">
+                              {sub.subnote2}
+                            </p>
                           </div>
                         )}
                         {sub.subtopic3 && (
-                          <div>
+                          <div className="flex flex-col items-center space-y-2">
+                            <FaBullseye className="text-PrimaryGold text-2xl" />
                             <h2 className="text-xl font-semibold text-Text">
                               {sub.subtopic3}
                             </h2>
-                            <p className="text-Text">{sub.subnote3}</p>
+                            <p className="text-Text whitespace-pre-line">
+                              {sub.subnote3}
+                            </p>
                           </div>
                         )}
                         {sub.subtopic4 && (
-                          <div>
+                          <div className="flex flex-col items-center space-y-2">
+                            <FaHeart className="text-PrimaryGold text-2xl" />
                             <h2 className="text-xl font-semibold text-Text">
                               {sub.subtopic4}
                             </h2>
-                            <p className="text-Text">{sub.subnote4}</p>
+                            <p className="text-Text whitespace-pre-line">
+                              {sub.subnote4}
+                            </p>
                           </div>
                         )}
                       </div>
