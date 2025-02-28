@@ -13,7 +13,7 @@ export default function AdminProductsPage() {
 
     useEffect(() => {
         if(!productsLoaded){
-            axios.get('http://localhost:5000/api/products').then
+            axios.get(import.meta.env.VITE_BACKEND_URL + "/api/products").then
             ((res)=>{
             console.log(res.data);
             setProducts(res.data);
@@ -100,7 +100,7 @@ export default function AdminProductsPage() {
                       onClick={()=>{
                         const token = localStorage.getItem("token");
 
-                        axios.delete(`http://localhost:5000/api/products/${product.productId}`, {
+                        axios.delete(import.meta.env.VITE_BACKEND_URL + `/api/products/${product.productId}`, {
                           headers: {
                             Authorization: `Bearer ${token}`,
                           },
