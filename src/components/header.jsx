@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
-import NavSlider from "./navSlider";
+import NavSlider from "./NavSlider";
 import axios from "axios";
-import { useEffect } from "react";
 
 export default function Header() {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
@@ -25,7 +24,6 @@ export default function Header() {
       })
       .then((res) => {
         setUser(res.data.user); // Access the `user` object from `res.data`
-        console.log(res.data.user); // Log the user data to verify
       })
       .catch((err) => {
         console.error("Failed to fetch user data. Please try again.");
@@ -34,7 +32,6 @@ export default function Header() {
 
   // Handle logout
   const handleLogout = () => {
-    // Clear user session or token
     localStorage.removeItem("token");
     setUser(null);
     window.location.href = "/login"; // Redirect to login page
@@ -42,7 +39,15 @@ export default function Header() {
 
   return (
     <>
-      {isSliderOpen && <NavSlider closeSlider={() => setIsSliderOpen(false)} />}
+      {/* NavSlider with user and handleLogout props */}
+      {isSliderOpen && (
+        <NavSlider
+          closeSlider={() => setIsSliderOpen(false)}
+          user={user} // Pass the user state
+          handleLogout={handleLogout} // Pass the logout function
+        />
+      )}
+
       <header className="bg-SecondaryBackground w-full h-[100px] relative flex justify-center items-center shadow-lg">
         {/* Logo */}
         <img
@@ -97,7 +102,7 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* User Profile Section */}
+        {/* User Profile Section (Desktop) */}
         <div className="absolute right-4 hidden lg:block">
           <div
             className="relative cursor-pointer"

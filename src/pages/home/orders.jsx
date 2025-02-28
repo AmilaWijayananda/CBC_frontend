@@ -48,7 +48,7 @@ export default function MyOrdersPage() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center p-4 bg-Background">
+    <div className="w-full h-full flex flex-col items-center p-4 bg-Background overflow-y-auto">
       {/* Loading Spinner */}
       {loadingStatus === "loading" && (
         <div className="w-full h-full flex justify-center items-center">
