@@ -30,7 +30,7 @@ export default function ManageNoteForm() {
         const fetchNotes = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const response = await axios.get('http://localhost:5000/api/note', {
+                const response = await axios.get(import.meta.env.VITE_BACKEND_URL + '/api/note', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -68,7 +68,7 @@ export default function ManageNoteForm() {
         const token = localStorage.getItem("token");
 
         try {
-            await axios.put(`http://localhost:5000/api/note/${noteId}`, noteData, {
+            await axios.put(import.meta.env.VITE_BACKEND_URL + `/api/note/${noteId}`, noteData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -102,7 +102,7 @@ export default function ManageNoteForm() {
         const token = localStorage.getItem("token");
 
         try {
-            const response = await axios.post('http://localhost:5000/api/note', newNote, {
+            const response = await axios.post(import.meta.env.VITE_BACKEND_URL + '/api/note', newNote, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -138,7 +138,7 @@ export default function ManageNoteForm() {
         const token = localStorage.getItem("token");
 
         try {
-            await axios.delete(`http://localhost:5000/api/note/${noteId}`, {
+            await axios.delete(import.meta.env.VITE_BACKEND_URL + `/api/note/${noteId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
