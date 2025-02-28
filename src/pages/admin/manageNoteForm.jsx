@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useLocation } from "react-router-dom";
+import { FaTrash } from "react-icons/fa"; // Import the trash icon from react-icons
 
 export default function ManageNoteForm() {
     const location = useLocation();
@@ -10,7 +11,18 @@ export default function ManageNoteForm() {
         page: "Home",
         topic: "",
         note: "",
-        status: "Visible"
+        status: "Visible",
+        subnote: [{
+            subtopic1: "",
+            subnote1: "",
+            subtopic2: "",
+            subnote2: "",
+            subtopic3: "",
+            subnote3: "",
+            subtopic4: "",
+            subnote4: ""
+        }],
+        language: "English"
     });
 
     useEffect(() => {
@@ -48,7 +60,9 @@ export default function ManageNoteForm() {
             date: noteToUpdate.date,
             status: noteToUpdate.status,
             topic: noteToUpdate.topic,
-            note: noteToUpdate.note
+            note: noteToUpdate.note,
+            subnote: noteToUpdate.subnote,
+            language: noteToUpdate.language
         };
 
         const token = localStorage.getItem("token");
@@ -74,6 +88,16 @@ export default function ManageNoteForm() {
         }));
     };
 
+    const handleSubnoteChange = (e, index) => {
+        const { name, value } = e.target;
+        setNewNote(prevState => ({
+            ...prevState,
+            subnote: prevState.subnote.map((sub, i) =>
+                i === index ? { ...sub, [name]: value } : sub
+            )
+        }));
+    };
+
     const handleAddNoteSubmit = async () => {
         const token = localStorage.getItem("token");
 
@@ -91,11 +115,40 @@ export default function ManageNoteForm() {
                 page: "Home",
                 topic: "",
                 note: "",
-                status: "Visible"
+                status: "Visible",
+                subnote: [{
+                    subtopic1: "",
+                    subnote1: "",
+                    subtopic2: "",
+                    subnote2: "",
+                    subtopic3: "",
+                    subnote3: "",
+                    subtopic4: "",
+                    subnote4: ""
+                }],
+                language: "English"
             });
         } catch (error) {
             console.log(error);
             toast.error('Failed to add note');
+        }
+    };
+
+    const handleDeleteNote = async (noteId) => {
+        const token = localStorage.getItem("token");
+
+        try {
+            await axios.delete(`http://localhost:5000/api/note/${noteId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            // Remove the deleted note from the state
+            setNotes(notes.filter(note => note.noteId !== noteId));
+            toast.success("Note Deleted Successfully");
+        } catch (error) {
+            console.log(error);
+            toast.error('Failed to delete note');
         }
     };
 
@@ -132,6 +185,80 @@ export default function ManageNoteForm() {
                             placeholder="Note"
                             className="w-full px-2 py-1 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none text-sm"
                         />
+                        {newNote.page === "About" && (
+                            <>
+                                <input
+                                    type="text"
+                                    name="subtopic1"
+                                    value={newNote.subnote[0].subtopic1}
+                                    onChange={(e) => handleSubnoteChange(e, 0)}
+                                    placeholder="Subtopic 1"
+                                    className="w-full px-2 py-1 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none text-sm"
+                                />
+                                <textarea
+                                    name="subnote1"
+                                    value={newNote.subnote[0].subnote1}
+                                    onChange={(e) => handleSubnoteChange(e, 0)}
+                                    placeholder="Subnote 1"
+                                    className="w-full px-2 py-1 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none text-sm"
+                                />
+                                <input
+                                    type="text"
+                                    name="subtopic2"
+                                    value={newNote.subnote[0].subtopic2}
+                                    onChange={(e) => handleSubnoteChange(e, 0)}
+                                    placeholder="Subtopic 2"
+                                    className="w-full px-2 py-1 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none text-sm"
+                                />
+                                <textarea
+                                    name="subnote2"
+                                    value={newNote.subnote[0].subnote2}
+                                    onChange={(e) => handleSubnoteChange(e, 0)}
+                                    placeholder="Subnote 2"
+                                    className="w-full px-2 py-1 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none text-sm"
+                                />
+                                <input
+                                    type="text"
+                                    name="subtopic3"
+                                    value={newNote.subnote[0].subtopic3}
+                                    onChange={(e) => handleSubnoteChange(e, 0)}
+                                    placeholder="Subtopic 3"
+                                    className="w-full px-2 py-1 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none text-sm"
+                                />
+                                <textarea
+                                    name="subnote3"
+                                    value={newNote.subnote[0].subnote3}
+                                    onChange={(e) => handleSubnoteChange(e, 0)}
+                                    placeholder="Subnote 3"
+                                    className="w-full px-2 py-1 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none text-sm"
+                                />
+                                <input
+                                    type="text"
+                                    name="subtopic4"
+                                    value={newNote.subnote[0].subtopic4}
+                                    onChange={(e) => handleSubnoteChange(e, 0)}
+                                    placeholder="Subtopic 4"
+                                    className="w-full px-2 py-1 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none text-sm"
+                                />
+                                <textarea
+                                    name="subnote4"
+                                    value={newNote.subnote[0].subnote4}
+                                    onChange={(e) => handleSubnoteChange(e, 0)}
+                                    placeholder="Subnote 4"
+                                    className="w-full px-2 py-1 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none text-sm"
+                                />
+                                <select
+                                    name="language"
+                                    value={newNote.language}
+                                    onChange={handleAddNoteChange}
+                                    className="w-full px-2 py-1 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none text-sm"
+                                >
+                                    <option value="English">English</option>
+                                    <option value="Sinhala">Sinhala</option>
+                                    <option value="Tamil">Tamil</option>
+                                </select>
+                            </>
+                        )}
                         <select
                             name="status"
                             value={newNote.status}
@@ -217,12 +344,18 @@ export default function ManageNoteForm() {
                                             className="w-full px-2 py-1 border border-gray-300 rounded-md focus:ring focus:ring-blue-200 focus:outline-none text-sm"
                                         />
                                     </td>
-                                    <td className="p-2">
+                                    <td className="p-2 flex space-x-2">
                                         <button
                                             onClick={() => handleSubmit(note.noteId)}
                                             className="px-3 py-1 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:ring focus:ring-blue-300 focus:outline-none text-sm"
                                         >
                                             Update Note
+                                        </button>
+                                        <button
+                                            onClick={() => handleDeleteNote(note.noteId)}
+                                            className="px-3 py-1 bg-red-600 text-white font-medium rounded-md hover:bg-red-700 focus:ring focus:ring-red-300 focus:outline-none text-sm"
+                                        >
+                                            <FaTrash />
                                         </button>
                                     </td>
                                 </tr>

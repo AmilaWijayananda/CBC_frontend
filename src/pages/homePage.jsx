@@ -10,6 +10,7 @@ import Home from './home/home';
 import ReviewPage from './home/review';
 import ReviewFormPage from './home/reviewForm';
 import Footer from '../components/footer';
+import AboutPage from './home/about';
 
 export default function HomePage() {
     return (
@@ -26,6 +27,7 @@ export default function HomePage() {
             <Route path='/orders' element={<MyOrdersPage />} />
             <Route path='/review' element={<ReviewPage />} />
             <Route path='/leaveReview' element={<ReviewFormPage />} />
+            <Route path='/about' element={<AboutPage />} />
           </Routes>
           
         </div>
