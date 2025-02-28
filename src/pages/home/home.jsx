@@ -184,7 +184,7 @@ export default function Home() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col relative  bg-Background">
+    <div className="w-full h-full flex flex-col relative bg-Background">
       <div className="w-full h-full overflow-y-scroll flex flex-wrap overflow-x-hidden justify-center relative">
         {/* Header Section */}
         <div
@@ -197,17 +197,27 @@ export default function Home() {
         </div>
 
         {/* Auto-Sliding Banner Section */}
-        {BannerLoadingStatus === "loaded" && banners.length > 0 && (
-          <div
-            ref={(el) => (sectionRefs.current[1] = el)}
-            className="w-full h-[60%] flex items-center justify-center overflow-hidden border-y-4 border-PrimaryGold mt-4 mb-4 shadow-lg shadow-yellow-500/50"
-          >
-            <BannerCard banner={banners[currentBannerIndex]} />
+        {BannerLoadingStatus === "loading" ? (
+          <div className="w-full h-[60%] flex items-center justify-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-PrimaryGold"></div>
           </div>
+        ) : (
+          banners.length > 0 && (
+            <div
+              ref={(el) => (sectionRefs.current[1] = el)}
+              className="w-full h-[60%] flex items-center justify-center overflow-hidden border-y-4 border-PrimaryGold mt-4 mb-4 shadow-lg shadow-yellow-500/50"
+            >
+              <BannerCard banner={banners[currentBannerIndex]} />
+            </div>
+          )
         )}
 
         {/* Product Carousel Section */}
-        {loadingStatus === "loaded" && (
+        {loadingStatus === "loading" ? (
+          <div className="w-full h-[80%] flex items-center justify-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-PrimaryGold"></div>
+          </div>
+        ) : (
           <div
             ref={(el) => (sectionRefs.current[2] = el)}
             className="w-full h-[80%] flex items-center justify-center"
@@ -256,16 +266,22 @@ export default function Home() {
         >
           {/* Image Section (30%) */}
           <div className="w-full lg:w-[30%] h-full bg-Background flex items-center justify-center p-4">
-            <div className="w-96 h-96 rounded-full overflow-hidden border-2 border-PrimaryGold shadow-lg shadow-yellow-500/50">
-              {allImages.length > 0 && (
+            {allImages.length === 0 ? (
+              <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-PrimaryGold"></div>
+            ) : (
+              <div className="w-96 h-96 rounded-full overflow-hidden border-2 border-PrimaryGold shadow-lg shadow-yellow-500/50">
                 <ImageCard image={allImages[currentImgIndex]} />
-              )}
-            </div>
+              </div>
+            )}
           </div>
 
           {/* Notes Section (70%) */}
           <div className="w-full lg:w-[70%] h-full p-4">
-            {notes.length > 0 && (
+            {notes.length === 0 ? (
+              <div className="flex items-center justify-center h-full">
+                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-PrimaryGold"></div>
+              </div>
+            ) : (
               <div
                 className="relative h-[400px] lg:h-full overflow-hidden bg-white rounded-lg shadow-lg cursor-pointer border-2 border-PrimaryGold"
                 onClick={handleNoteClick}
@@ -300,16 +316,20 @@ export default function Home() {
           ref={(el) => (sectionRefs.current[4] = el)}
           className="w-full h-[500px] lg:h-[400px] flex items-center justify-center p-4 bg-SecondaryBackground border-t-2 border-PrimaryGold shadow-lg overflow-y-auto"
         >
-          <div className="w-full max-w-5xl flex flex-col lg:flex-row justify-around gap-4">
-            {visibleReviews.map((review, index) => (
-              <div
-                key={index}
-                className="animate-fade-in transition-all duration-1000 w-full lg:w-1/3"
-              >
-                <ReviewCard review={review} />
-              </div>
-            ))}
-          </div>
+          {reviews.length === 0 ? (
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-PrimaryGold"></div>
+          ) : (
+            <div className="w-full max-w-5xl flex flex-col lg:flex-row justify-around gap-4">
+              {visibleReviews.map((review, index) => (
+                <div
+                  key={index}
+                  className="animate-fade-in transition-all duration-1000 w-full lg:w-1/3"
+                >
+                  <ReviewCard review={review} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Footer Section */}
