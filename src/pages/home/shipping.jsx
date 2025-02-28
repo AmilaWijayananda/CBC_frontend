@@ -36,8 +36,6 @@ export default function ShippingPage() {
         console.error(err);
       });
   }, [cart, navigate]);
-  console.log("cart", cart);
-  console.log("total", total);
 
   function validateInputs() {
     if (!name.trim()) {
@@ -59,12 +57,11 @@ export default function ShippingPage() {
     if (!validateInputs()) return;
 
     const token = localStorage.getItem("token");
-    console.log("token",token);
     if (!token) {
       toast.error("You must be logged in to place an order.");
       return;
     }
-    //console.log(cart);
+
     axios
       .post(
         import.meta.env.VITE_BACKEND_URL + "/api/orders",
@@ -95,72 +92,82 @@ export default function ShippingPage() {
   }
 
   return (
-    <div className="w-full h-full bg-gray-100 p-4">
-      <div className="w-full max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
-        <h1 className="text-2xl font-bold mb-4">Shipping Details</h1>
+    <div className="w-full h-full overflow-y-scroll flex flex-wrap bg-Background p-4">
+      <div className="w-full max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
+        {/* Shipping Details Section */}
+        <h1 className="text-2xl font-bold text-Text mb-4">Shipping Details</h1>
         <div className="mb-4">
-          <label className="block font-medium text-gray-700 mb-1">Name</label>
+          <label className="block font-medium text-Text mb-1">Name</label>
           <input
             type="text"
-            className="w-full p-2 border border-gray-300 rounded-md"
+            className="w-full p-2 border border-PrimaryGold rounded-md focus:outline-none focus:border-SecondaryGold"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Enter your name"
           />
         </div>
         <div className="mb-4">
-          <label className="block font-medium text-gray-700 mb-1">Address</label>
+          <label className="block font-medium text-Text mb-1">Address</label>
           <textarea
-            className="w-full p-2 border border-gray-300 rounded-md"
+            className="w-full p-2 border border-PrimaryGold rounded-md focus:outline-none focus:border-SecondaryGold"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             placeholder="Enter your address"
           />
         </div>
         <div className="mb-4">
-          <label className="block font-medium text-gray-700 mb-1">Phone</label>
+          <label className="block font-medium text-Text mb-1">Phone</label>
           <input
             type="text"
-            className="w-full p-2 border border-gray-300 rounded-md"
+            className="w-full p-2 border border-PrimaryGold rounded-md focus:outline-none focus:border-SecondaryGold"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="Enter your phone number"
           />
         </div>
 
-        <h2 className="text-xl font-bold mt-6 mb-4">Order Summary</h2>
-        <table className="w-full border-collapse border border-gray-300 mb-4">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="border border-gray-300 p-2">Image</th>
-              <th className="border border-gray-300 p-2">Product Name</th>
-              <th className="border border-gray-300 p-2">Product ID</th>
-              <th className="border border-gray-300 p-2">Qty</th>
-              <th className="border border-gray-300 p-2">Price</th>
-              <th className="border border-gray-300 p-2">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cart.map((item) => (
-              <CartCard
-                key={item.productId}
-                productId={item.productId}
-                qty={item.qty}
-              />
-            ))}
-          </tbody>
-        </table>
-        <h1 className="text-lg font-bold text-gray-700 mb-2">
-          Total: LKR. {labeledTotal.toFixed(2)}
-        </h1>
-        <h1 className="text-lg font-bold text-gray-700 mb-2">
-          Discount: LKR. {(labeledTotal - total).toFixed(2)}
-        </h1>
-        <h1 className="text-lg font-bold text-gray-700 mb-4">
-          Grand Total: LKR. {total.toFixed(2)}
-        </h1>
+        {/* Order Summary Section */}
+        <h2 className="text-xl font-bold text-Text mt-6 mb-4">Order Summary</h2>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse border border-PrimaryGold mb-4">
+            <thead>
+              <tr className="bg-SecondaryBackground">
+                <th className="border border-PrimaryGold p-2 text-Text">Image</th>
+                <th className="border border-PrimaryGold p-2 text-Text">Product Name</th>
+                <th className="border border-PrimaryGold p-2 text-Text">Product ID</th>
+                <th className="border border-PrimaryGold p-2 text-Text">Qty</th>
+                <th className="border border-PrimaryGold p-2 text-Text">Price</th>
+                <th className="border border-PrimaryGold p-2 text-Text">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cart.map((item) => (
+                <CartCard
+                  key={item.productId}
+                  productId={item.productId}
+                  qty={item.qty}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Total Section */}
+        <div className="mt-4 text-center text-left">
+          <h1 className="text-lg font-bold text-Text mb-2">
+            Total: LKR. {labeledTotal.toFixed(2)}
+          </h1>
+          <h1 className="text-lg font-bold text-Text mb-2">
+            Discount: LKR. {(labeledTotal - total).toFixed(2)}
+          </h1>
+          <h1 className="text-lg font-bold text-Text mb-4">
+            Grand Total: LKR. {total.toFixed(2)}
+          </h1>
+        </div>
+
+        {/* Checkout Button */}
         <button
-          className="bg-blue-600 hover:bg-blue-500 text-white py-2 px-4 rounded-lg w-full"
+          className="bg-PrimaryGold text-Text font-semibold py-2 px-4 rounded-lg w-full hover:bg-SecondaryGold hover:shadow-lg transition-all duration-300"
           onClick={createOrder}
         >
           Checkout
