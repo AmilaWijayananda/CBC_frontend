@@ -75,7 +75,7 @@ export default function ProductPage() {
       )}
       {loadingStatus == "loading" && (
         <div className="w-full h-full flex items-center justify-center">
-          <div className="animate-spin rounded-full h-32 w-32  border-2 border-gray-500 border-b-accent border-b-4"></div>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-PrimaryGold"></div>
         </div>
       )}
     </div>
