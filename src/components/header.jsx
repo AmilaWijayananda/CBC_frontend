@@ -48,62 +48,63 @@ export default function Header() {
         />
       )}
 
-      <header className="bg-SecondaryBackground w-full h-[100px] relative flex justify-center items-center shadow-lg">
+      <header className="w-full h-[100px] relative flex justify-center items-center shadow-lg bg-gradient-to-r from-amber-200 via-orange-200 to-yellow-200">
         {/* Logo */}
-        <img
-          src="/logo.png"
-          alt="Logo"
-          className="cursor-pointer h-[80px] w-[80px] rounded-full absolute left-4 hover:scale-105 transition-transform duration-300"
-        />
+        <Link to="/" className="absolute left-4">
+          <img
+            src="/logo.png"
+            alt="Logo"
+            className="cursor-pointer h-[80px] w-[80px] rounded-full hover:scale-105 transition-transform duration-300 border-2 border-amber-500 shadow-lg"
+          />
+        </Link>
 
         {/* Hamburger Menu (Mobile) */}
         <RxHamburgerMenu
           onClick={() => setIsSliderOpen(true)}
-          className="text-3xl absolute cursor-pointer text-Accent right-4 lg:hidden hover:text-PrimaryGold transition-colors duration-300"
+          className="text-3xl absolute cursor-pointer text-amber-700 right-4 lg:hidden hover:text-amber-900 transition-colors duration-300"
         />
 
         {/* Navigation Links (Desktop) */}
         <div className="h-full flex items-center w-[700px] justify-between hidden lg:flex px-1">
           <Link
             to="/"
-            className="text-Text text-xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
+            className="text-amber-800 text-xl font-semibold hover:text-amber-900 hover:border-b-2 border-amber-900 transition-all duration-300"
           >
             Home
           </Link>
           <Link
             to="/products"
-            className="text-Text text-xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
+            className="text-amber-800 text-xl font-semibold hover:text-amber-900 hover:border-b-2 border-amber-900 transition-all duration-300"
           >
             Products
           </Link>
           <Link
             to="/cart"
-            className="text-Text text-xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
+            className="text-amber-800 text-xl font-semibold hover:text-amber-900 hover:border-b-2 border-amber-900 transition-all duration-300"
           >
             Cart
           </Link>
           <Link
             to="/orders"
-            className="text-Text text-xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
+            className="text-amber-800 text-xl font-semibold hover:text-amber-900 hover:border-b-2 border-amber-900 transition-all duration-300"
           >
             My Orders
           </Link>
           <Link
             to="/about"
-            className="text-Text text-xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
+            className="text-amber-800 text-xl font-semibold hover:text-amber-900 hover:border-b-2 border-amber-900 transition-all duration-300"
           >
             About Us
           </Link>
           <Link
             to="/contact"
-            className="text-Text text-xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
+            className="text-amber-800 text-xl font-semibold hover:text-amber-900 hover:border-b-2 border-amber-900 transition-all duration-300"
           >
             Contact Us
           </Link>
-         
           <Link
             to="/review"
-            className="text-Text text-xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
+            className="text-amber-800 text-xl font-semibold hover:text-amber-900 hover:border-b-2 border-amber-900 transition-all duration-300"
           >
             Reviews
           </Link>
@@ -119,10 +120,10 @@ export default function Header() {
               <img
                 src={user.profilePicture}
                 alt="Profile"
-                className="h-[40px] w-[40px] rounded-full hover:scale-105 transition-transform duration-300"
+                className="h-[40px] w-[40px] rounded-full hover:scale-105 transition-transform duration-300 border-2 border-amber-500 shadow-md"
               />
             ) : (
-              <FaUserCircle className="text-3xl text-Accent hover:text-PrimaryGold transition-colors duration-300" />
+              <FaUserCircle className="text-3xl text-amber-700 hover:text-amber-900 transition-colors duration-300" />
             )}
           </div>
 
