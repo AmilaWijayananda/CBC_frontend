@@ -134,16 +134,18 @@ export default function ContactPage() {
                             <h2 className="text-xl font-semibold text-Text">
                               {sub.subtopic4}
                             </h2>
-                            <p className="text-Text">
-                              <a
-                                href={sub.subnote4}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-PrimaryGold hover:underline"
-                              >
-                                View on Google Maps
-                              </a>
-                            </p>
+                            {/* Embedded Google Map */}
+                            <div className="w-full h-64 rounded-lg overflow-hidden shadow-lg">
+                            <iframe
+  title="Google Map"
+  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.1991024079493!2d79.90769287475655!3d6.866728793131861!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25a4a7feb8e3b%3A0x6caab09855a9ebdd!2sCrystal%20Beauty%20Pharmaceuticals%20(Pvt)Ltd!5e0!3m2!1sen!2sus!4v1740832208221!5m2!1sen!2sus"
+  width="100%"
+  height="100%"
+  style={{ border: 0 }}
+  allowFullScreen
+  loading="lazy"
+></iframe>
+                            </div>
                           </div>
                         )}
                       </div>
