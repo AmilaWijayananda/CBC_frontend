@@ -39,6 +39,20 @@ export default function NavSlider(props) {
           Products
         </Link>
         <Link
+          to="/cart"
+          onClick={closeSlider} // Close slider on click
+          className="text-Text font-bold text-xl p-4 hover:bg-SecondaryGold hover:text-white transition-colors duration-300"
+        >
+          Cart
+        </Link>
+        <Link
+          to="/orders"
+          onClick={closeSlider} // Close slider on click
+          className="text-Text font-bold text-xl p-4 hover:bg-SecondaryGold hover:text-white transition-colors duration-300"
+        >
+          My Orders
+        </Link>
+        <Link
           to="/about"
           onClick={closeSlider} // Close slider on click
           className="text-Text font-bold text-xl p-4 hover:bg-SecondaryGold hover:text-white transition-colors duration-300"
@@ -52,13 +66,7 @@ export default function NavSlider(props) {
         >
           Contact Us
         </Link>
-        <Link
-          to="/cart"
-          onClick={closeSlider} // Close slider on click
-          className="text-Text font-bold text-xl p-4 hover:bg-SecondaryGold hover:text-white transition-colors duration-300"
-        >
-          Cart
-        </Link>
+        
         <Link
           to="/review"
           onClick={closeSlider} // Close slider on click
