@@ -49,59 +49,61 @@ export default function AdminHomePage() {
   }, []);
 
   return (
-    <div className="bg-Background w-full h-screen flex flex-col md:flex-row">
+    <div className="bg-Background w-full h-screen flex flex-col md:flex-row overflow-x-hidden">
       {/* Sidebar */}
       <div className="bg-PrimaryGold w-full md:w-[20%] h-auto md:h-screen flex flex-col items-center py-6">
-        <h1 className="text-Text text-2xl font-bold mb-6">Admin Panel</h1>
-        <nav className="flex flex-col gap-4 w-full">
+        <h1 className="text-Text text-2xl font-bold mb-6 hidden md:block">
+          Admin Panel
+        </h1>
+        <nav className="flex flex-row md:flex-col gap-4 w-full justify-between md:justify-start px-4 md:px-0">
           <Link
-            className="flex items-center gap-3 px-4 py-2 text-Text text-lg hover:bg-SecondaryGold hover:text-white transition-colors duration-200 w-full"
+            className="flex items-center gap-3 px-4 py-2 text-Text text-lg hover:bg-SecondaryGold hover:text-white transition-colors duration-200 w-full md:w-auto"
             to="/admin/"
           >
             <FaChartBar />
-            Dashboard
+            <span className="hidden md:inline">Dashboard</span>
           </Link>
           <Link
-            className="flex items-center gap-3 px-4 py-2 text-Text text-lg hover:bg-SecondaryGold hover:text-white transition-colors duration-200 w-full"
+            className="flex items-center gap-3 px-4 py-2 text-Text text-lg hover:bg-SecondaryGold hover:text-white transition-colors duration-200 w-full md:w-auto"
             to="/admin/products"
           >
             <FaBox />
-            Products
+            <span className="hidden md:inline">Products</span>
           </Link>
           <Link
-            className="flex items-center gap-3 px-4 py-2 text-Text text-lg hover:bg-SecondaryGold hover:text-white transition-colors duration-200 w-full"
+            className="flex items-center gap-3 px-4 py-2 text-Text text-lg hover:bg-SecondaryGold hover:text-white transition-colors duration-200 w-full md:w-auto"
             to="/admin/orders"
           >
             <FaShoppingCart />
-            Orders
+            <span className="hidden md:inline">Orders</span>
           </Link>
           <Link
-            className="flex items-center gap-3 px-4 py-2 text-Text text-lg hover:bg-SecondaryGold hover:text-white transition-colors duration-200 w-full"
+            className="flex items-center gap-3 px-4 py-2 text-Text text-lg hover:bg-SecondaryGold hover:text-white transition-colors duration-200 w-full md:w-auto"
             to="/admin/customers"
           >
             <FaUsers />
-            Customers
+            <span className="hidden md:inline">Customers</span>
           </Link>
           <Link
-            className="flex items-center gap-3 px-4 py-2 text-Text text-lg hover:bg-SecondaryGold hover:text-white transition-colors duration-200 w-full"
+            className="flex items-center gap-3 px-4 py-2 text-Text text-lg hover:bg-SecondaryGold hover:text-white transition-colors duration-200 w-full md:w-auto"
             to="/admin/reviews"
           >
             <TbStarHalfFilled />
-            Reviews
+            <span className="hidden md:inline">Reviews</span>
           </Link>
           <Link
-            className="flex items-center gap-3 px-4 py-2 text-Text text-lg hover:bg-SecondaryGold hover:text-white transition-colors duration-200 w-full"
+            className="flex items-center gap-3 px-4 py-2 text-Text text-lg hover:bg-SecondaryGold hover:text-white transition-colors duration-200 w-full md:w-auto"
             to="/admin/banner"
           >
             <IoImagesSharp />
-            Banners
+            <span className="hidden md:inline">Banners</span>
           </Link>
           <Link
-            className="flex items-center gap-3 px-4 py-2 text-Text text-lg hover:bg-SecondaryGold hover:text-white transition-colors duration-200 w-full"
+            className="flex items-center gap-3 px-4 py-2 text-Text text-lg hover:bg-SecondaryGold hover:text-white transition-colors duration-200 w-full md:w-auto"
             to="/admin/notes"
           >
             <VscNote />
-            Page's Notes
+            <span className="hidden md:inline">Page's Notes</span>
           </Link>
         </nav>
       </div>
