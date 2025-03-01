@@ -117,28 +117,28 @@ export default function AdminHomePage() {
           </div>
         </nav>
 
-        {/* Profile Dropdown - Mobile (Fixed), Desktop (Below Profile Button) */}
+        {/* Profile Dropdown - Mobile (Horizontal), Desktop (Vertical) */}
         {isProfileOpen && (
-          <div className="md:absolute md:top-full md:right-0 md:w-48 fixed top-14 right-4 w-48 bg-white rounded-lg shadow-lg z-50">
+          <div className="absolute md:relative bottom-0 md:bottom-auto left-0 md:left-auto w-full md:w-auto bg-SecondaryBackground shadow-lg rounded-lg mt-2 md:mt-0">
             {user ? (
-              <>
-                <div className="p-4 border-b border-gray-200">
-                  <p className="text-black font-semibold">
+              <div className="flex flex-col md:flex-row items-center justify-between p-4 border-b border-Accent">
+                <div className="text-center md:text-left">
+                  <p className="text-Text font-semibold">
                     {user.firstName} {user.lastName}
                   </p>
-                  <p className="text-sm text-gray-600">{user.email}</p>
+                  <p className="text-sm text-Text">{user.email}</p>
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="w-full text-left p-4 text-red-600 hover:bg-gray-100 rounded-b-lg transition-colors duration-300"
+                  className="mt-2 md:mt-0 md:ml-4 px-4 py-2 text-red-600 hover:bg-SecondaryGold hover:text-white rounded-lg transition-colors duration-300"
                 >
                   Logout
                 </button>
-              </>
+              </div>
             ) : (
               <Link
                 to="/login"
-                className="block p-4 text-black hover:bg-gray-100 rounded-lg transition-colors duration-300"
+                className="block p-4 text-Text hover:bg-SecondaryGold hover:text-white rounded-lg transition-colors duration-300"
               >
                 Login
               </Link>
