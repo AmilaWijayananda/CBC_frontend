@@ -63,7 +63,7 @@ export default function Header() {
         />
 
         {/* Navigation Links (Desktop) */}
-        <div className="h-full flex items-center w-[700px] justify-between hidden lg:flex px-8">
+        <div className="h-full flex items-center w-[700px] justify-between hidden lg:flex px-1">
           <Link
             to="/"
             className="text-Text text-xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
@@ -77,10 +77,22 @@ export default function Header() {
             Products
           </Link>
           <Link
+            to="/cart"
+            className="text-Text text-xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
+          >
+            Cart
+          </Link>
+          <Link
+            to="/orders"
+            className="text-Text text-xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
+          >
+            My Orders
+          </Link>
+          <Link
             to="/about"
             className="text-Text text-xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
           >
-            About
+            About Us
           </Link>
           <Link
             to="/contact"
@@ -88,12 +100,7 @@ export default function Header() {
           >
             Contact Us
           </Link>
-          <Link
-            to="/cart"
-            className="text-Text text-xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
-          >
-            Cart
-          </Link>
+         
           <Link
             to="/review"
             className="text-Text text-xl font-bold hover:text-PrimaryGold hover:border-b-2 border-PrimaryGold transition-all duration-300"
