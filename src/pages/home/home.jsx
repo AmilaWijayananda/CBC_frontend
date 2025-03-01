@@ -27,6 +27,7 @@ export default function Home() {
 
   // Intersection Observer for scroll animations
   const sectionRefs = useRef([]);
+  const titleRefs = useRef([]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -44,9 +45,17 @@ export default function Home() {
       if (section) observer.observe(section);
     });
 
+    titleRefs.current.forEach((title) => {
+      if (title) observer.observe(title);
+    });
+
     return () => {
       sectionRefs.current.forEach((section) => {
         if (section) observer.unobserve(section);
+      });
+
+      titleRefs.current.forEach((title) => {
+        if (title) observer.unobserve(title);
       });
     };
   }, []);
@@ -212,6 +221,16 @@ export default function Home() {
           )
         )}
 
+        {/* Section Title */}
+        <div
+          ref={(el) => (titleRefs.current[0] = el)}
+          className="w-full h-[50px] items-center justify-center p-4 bg-Background border-t-0 border-PrimaryGold pt-2"
+        >
+          <h2 className="text-2xl md:text-3xl font-semibold text-Text text-center mb-6 hover:text-PrimaryGold transition-colors duration-300">
+            Crystal Beauty Products
+          </h2>
+        </div>
+
         {/* Product Carousel Section */}
         {loadingStatus === "loading" ? (
           <div className="w-full h-[80%] flex items-center justify-center">
@@ -258,6 +277,16 @@ export default function Home() {
             </button>
           </div>
         )}
+
+        {/* Section Title */}
+        <div
+          ref={(el) => (titleRefs.current[1] = el)}
+          className="w-full h-[50px] items-center justify-center p-4 bg-Background border-t-2 border-PrimaryGold pt-2"
+        >
+          <h2 className="text-2xl md:text-3xl font-semibold text-Text text-center mb-6 hover:text-PrimaryGold transition-colors duration-300">
+            Values of Our Products
+          </h2>
+        </div>
 
         {/* Middle Section */}
         <div
@@ -311,10 +340,20 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Section Title */}
+        <div
+          ref={(el) => (titleRefs.current[2] = el)}
+          className="w-full h-[50px] items-center justify-center p-4 bg-SecondaryBackground border-t-2 border-PrimaryGold pt-2"
+        >
+          <h2 className="text-2xl md:text-3xl font-semibold text-Text text-center mb-6 hover:text-PrimaryGold transition-colors duration-300">
+            Feedbacks
+          </h2>
+        </div>
+
         {/* Review Section */}
         <div
           ref={(el) => (sectionRefs.current[4] = el)}
-          className="w-full h-[500px] lg:h-[400px] flex items-center justify-center p-4 bg-SecondaryBackground border-t-2 border-PrimaryGold shadow-lg overflow-y-auto"
+          className="w-full h-[700px] lg:h-[400px] flex items-center justify-center p-4 bg-SecondaryBackground border-t-0 border-PrimaryGold shadow-lg overflow-y-auto"
         >
           {reviews.length === 0 ? (
             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-PrimaryGold"></div>
