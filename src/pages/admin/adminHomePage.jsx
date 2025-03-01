@@ -23,6 +23,7 @@ import { VscNote } from "react-icons/vsc";
 import ManageNoteForm from "./manageNoteForm";
 import { fetchProfile } from "../../utils/fetchProfile";
 import AdminCustomerPage from "./adminCxPage";
+import AdminDashboard from "./adminDashboard";
 
 export default function AdminHomePage() {
   const [user, setUser] = useState(null);
@@ -152,7 +153,7 @@ export default function AdminHomePage() {
       <div className="bg-SecondaryBackground w-full md:w-[80%] h-screen p-6 overflow-y-auto">
         {user != null ? (
           <Routes path="/*">
-            <Route path="/" element={<h1>Dashboard</h1>} />
+            <Route path="/" element={<AdminDashboard />} />
             <Route path="/customers" element={<AdminCustomerPage />} />
             <Route path="/products" element={<AdminProductsPage />} />
             <Route path="/products/addProduct" element={<AddProductForm />} />
