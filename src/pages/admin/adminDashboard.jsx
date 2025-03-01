@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 export default function AdminDashboard() {
     const [orders, setOrders] = useState([]);
     const [customers, setCustomers] = useState([]);
+    const [admins, setAdmins] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [products, setProducts] = useState([]);
 
@@ -26,6 +27,26 @@ export default function AdminDashboard() {
         };
 
         fetchCustomers();
+    }, []);
+
+    // Fetch all admins
+    useEffect(() => {
+        const fetchAdmins = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                const response = await axios.get(import.meta.env.VITE_BACKEND_URL + '/api/users/admins', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                setAdmins(response.data);
+            } catch (error) {
+                console.log(error);
+                toast.error('Failed to load customers');
+            }
+        };
+
+        fetchAdmins();
     }, []);
 
     // Fetch all orders
@@ -82,6 +103,7 @@ export default function AdminDashboard() {
 
     // Calculate counts
     const customersCount = customers.length;
+    const adminsCount = admins.length;
     const reviewsCount = reviews.length;
     const productsCount = products.length;
     const ordersCount = orders.length;
@@ -121,6 +143,11 @@ export default function AdminDashboard() {
                 <div className="bg-SecondaryBackground p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200 flex flex-col items-center justify-center">
                     <h2 className="text-xl font-semibold text-Text mb-2 text-center">Total Customers</h2>
                     <p className="text-4xl font-bold text-PrimaryGold">{customersCount}</p>
+                </div>
+                {/* Admins Card */}
+                <div className="bg-SecondaryBackground p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200 flex flex-col items-center justify-center">
+                    <h2 className="text-xl font-semibold text-Text mb-2 text-center">Total Admins</h2>
+                    <p className="text-4xl font-bold text-PrimaryGold">{adminsCount}</p>
                 </div>
 
                 {/* Reviews Card */}
