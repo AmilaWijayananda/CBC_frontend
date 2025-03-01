@@ -22,7 +22,7 @@ export default function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div className="flex flex-col items-center md:items-start">
+          <div className="flex flex-col items-center text-center md:items-start">
             <h3 className="text-PrimaryGold text-lg font-bold mb-4">
               Quick Links
             </h3>
@@ -69,7 +69,9 @@ export default function Footer() {
             </h3>
             <p className="text-gray-400">Email: info@crystalbeauty.com</p>
             <p className="text-gray-400">Phone: +94 123 456 789</p>
-            <p className="text-gray-400">Address: 123 Beauty St, Colombo, Sri Lanka</p>
+            <p className="text-gray-400">
+              Address: 123 Beauty St, Colombo, Sri Lanka
+            </p>
           </div>
 
           {/* Social Media Links */}
