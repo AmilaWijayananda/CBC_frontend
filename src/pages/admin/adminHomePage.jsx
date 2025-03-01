@@ -82,10 +82,10 @@ export default function AdminHomePage() {
           </Link>
           <Link
             className="flex items-center gap-2 px-2 py-2 text-Text text-sm hover:bg-SecondaryGold hover:text-white transition-colors duration-200"
-            to="/admin/customers"
+            to="/admin/users"
           >
             <FaUsers />
-            <span className="hidden md:inline">Customers</span>
+            <span className="hidden md:inline">Customers & Admins</span>
           </Link>
           <Link
             className="flex items-center gap-2 px-2 py-2 text-Text text-sm hover:bg-SecondaryGold hover:text-white transition-colors duration-200"
@@ -154,7 +154,7 @@ export default function AdminHomePage() {
         {user != null ? (
           <Routes path="/*">
             <Route path="/" element={<AdminDashboard />} />
-            <Route path="/customers" element={<AdminCustomerPage />} />
+            <Route path="/users" element={<AdminCustomerPage />} />
             <Route path="/products" element={<AdminProductsPage />} />
             <Route path="/products/addProduct" element={<AddProductForm />} />
             <Route path="/products/editProduct" element={<EditProductForm />} />
