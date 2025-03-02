@@ -241,7 +241,7 @@ export default function Home() {
             ref={(el) => (sectionRefs.current[2] = el)}
             className="w-full h-[80%] flex items-center justify-center"
             style={{
-              backgroundImage: "url('/public/B_Image1.jpg')",
+              backgroundImage: "url('./B_Image1.jpg')",
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
