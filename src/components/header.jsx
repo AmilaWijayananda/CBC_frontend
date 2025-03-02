@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
@@ -9,25 +9,24 @@ export default function Header() {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const profileRef = useRef(null); // Ref for closing dropdown on outside click
 
   // Fetch user data on component mount
   useEffect(() => {
+    const controller = new AbortController();
     const token = localStorage.getItem("token");
-    if (!token) {
-      return;
-    }
+
+    if (!token) return;
+
     axios
       .get(import.meta.env.VITE_BACKEND_URL + "/api/users/me", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
+        signal: controller.signal, // Attach signal to cancel request on unmount
       })
-      .then((res) => {
-        setUser(res.data.user); // Access the `user` object from `res.data`
-      })
-      .catch((err) => {
-        console.error("Failed to fetch user data. Please try again.");
-      });
+      .then((res) => setUser(res.data.user))
+      .catch(() => setUser(null)); // Set user to null on failure
+
+    return () => controller.abort(); // Cleanup function
   }, []);
 
   // Handle logout
@@ -37,18 +36,33 @@ export default function Header() {
     window.location.href = "/login"; // Redirect to login page
   };
 
+  // Close profile dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setIsProfileOpen(false);
+      }
+    }
+
+    if (isProfileOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isProfileOpen]);
+
   return (
     <>
-      {/* NavSlider with user and handleLogout props */}
+      {/* NavSlider */}
       {isSliderOpen && (
         <NavSlider
           closeSlider={() => setIsSliderOpen(false)}
-          user={user} // Pass the user state
-          handleLogout={handleLogout} // Pass the logout function
+          user={user}
+          handleLogout={handleLogout}
         />
       )}
 
       <header className="w-full h-[100px] relative flex justify-center items-center shadow-lg bg-gradient-to-r from-amber-200 via-orange-200 to-yellow-200">
+        
         {/* Logo */}
         <Link to="/" className="absolute left-4">
           <img
@@ -65,58 +79,33 @@ export default function Header() {
         />
 
         {/* Navigation Links (Desktop) */}
-        <div className="h-full flex items-center w-[700px] justify-between hidden lg:flex px-1">
-          <Link
-            to="/"
-            className="text-amber-800 text-xl font-semibold hover:text-amber-900 hover:border-b-2 border-amber-900 transition-all duration-300"
-          >
-            Home
-          </Link>
-          <Link
-            to="/products"
-            className="text-amber-800 text-xl font-semibold hover:text-amber-900 hover:border-b-2 border-amber-900 transition-all duration-300"
-          >
-            Products
-          </Link>
-          <Link
-            to="/cart"
-            className="text-amber-800 text-xl font-semibold hover:text-amber-900 hover:border-b-2 border-amber-900 transition-all duration-300"
-          >
-            Cart
-          </Link>
-          <Link
-            to="/orders"
-            className="text-amber-800 text-xl font-semibold hover:text-amber-900 hover:border-b-2 border-amber-900 transition-all duration-300"
-          >
-            My Orders
-          </Link>
-          <Link
-            to="/about"
-            className="text-amber-800 text-xl font-semibold hover:text-amber-900 hover:border-b-2 border-amber-900 transition-all duration-300"
-          >
-            About Us
-          </Link>
-          <Link
-            to="/contact"
-            className="text-amber-800 text-xl font-semibold hover:text-amber-900 hover:border-b-2 border-amber-900 transition-all duration-300"
-          >
-            Contact Us
-          </Link>
-          <Link
-            to="/review"
-            className="text-amber-800 text-xl font-semibold hover:text-amber-900 hover:border-b-2 border-amber-900 transition-all duration-300"
-          >
-            Reviews
-          </Link>
-        </div>
+        <nav className="h-full flex items-center w-[700px] justify-between hidden lg:flex px-1">
+          {[
+            { name: "Home", path: "/" },
+            { name: "Products", path: "/products" },
+            { name: "Cart", path: "/cart" },
+            { name: "My Orders", path: "/orders" },
+            { name: "About Us", path: "/about" },
+            { name: "Contact", path: "/contact" },
+            { name: "Reviews", path: "/review" },
+          ].map((item) => (
+            <Link
+              key={item.name}
+              to={item.path}
+              className="text-amber-800 text-xl font-semibold hover:text-amber-900 hover:border-b-2 border-amber-900 transition-all duration-300"
+            >
+              {item.name}
+            </Link>
+          ))}
+        </nav>
 
         {/* User Profile Section (Desktop) */}
-        <div className="absolute right-4 hidden lg:block">
+        <div className="absolute right-4 hidden lg:block" ref={profileRef}>
           <div
-            className="relative cursor-pointer"
+            className="relative cursor-pointer flex items-center gap-2"
             onClick={() => setIsProfileOpen(!isProfileOpen)}
           >
-            {user ? (
+            {user?.profilePicture ? (
               <img
                 src={user.profilePicture}
                 alt="Profile"
@@ -125,6 +114,7 @@ export default function Header() {
             ) : (
               <FaUserCircle className="text-3xl text-amber-700 hover:text-amber-900 transition-colors duration-300" />
             )}
+            <p className="text-amber-800 font-semibold">{user ? user.firstName : "Guest"}</p>
           </div>
 
           {/* Profile Dropdown */}
