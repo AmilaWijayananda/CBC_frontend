@@ -35,6 +35,16 @@ export default function ProductOverview() {
   }
 
   function onBuyNowClick() {
+    const navigate = useNavigate();
+    const token = localStorage.getItem("token");
+  
+    // Check if user is logged in
+    if (!token) {
+      toast.error("You must be logged in to buy products.");
+      return;
+    }
+  
+    // Proceed to shipping page if logged in
     navigate("/shipping", {
       state: {
         items: [
