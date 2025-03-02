@@ -12,12 +12,13 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 
 function App() {
   const [count, setCount] = useState(0)
+  const ID = import.meta.env.VITE_GOOGLE_ID
 
   return (
     <>
       <BrowserRouter>
       <Toaster />
-      <GoogleOAuthProvider clientId='315193361061-7ctl629n1havhbrg34bujq6hqd1bv0m1.apps.googleusercontent.com'>
+      <GoogleOAuthProvider clientId={ID}>
         <Routes path="/*">  
           <Route path="/login" element={<LoginPage />} />
           <Route path='/signup' element={<SignupPage />} />
