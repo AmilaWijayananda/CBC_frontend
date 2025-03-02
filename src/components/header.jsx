@@ -3,6 +3,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import axios from "axios";
+import NavSlider from "./components/NavSlider";
 
 export default function Header() {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
