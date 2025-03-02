@@ -12,6 +12,7 @@ export default function ProductOverview() {
   const [product, setProduct] = useState(null);
   const [status, setStatus] = useState("loading");
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     console.log(productId);
@@ -30,21 +31,22 @@ export default function ProductOverview() {
   }, []);
 
   function onAddtoCartClick() {
+    // Check if user is logged in
+  if (!token) {
+    toast.error("You must be logged in to add products to the cart");
+    return;
+  }
     addToCart(product.productId, 1);
     toast.success(product.productId + " Added to cart");
   }
 
   function onBuyNowClick() {
-    const navigate = useNavigate();
-    const token = localStorage.getItem("token");
-  
     // Check if user is logged in
-    if (!token) {
-      toast.error("You must be logged in to buy products.");
-      return;
-    }
-  
-    // Proceed to shipping page if logged in
+  if (!token) {
+    toast.error("You must be logged in to buy products");
+    return;
+  }
+
     navigate("/shipping", {
       state: {
         items: [
