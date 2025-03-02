@@ -5,20 +5,20 @@ import './App.css'
 import LoginPage from './pages/loginPage'
 import HomePage from './pages/homePage'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import SignupPage from './pages/signUpPage'
 import AdminHomePage from './pages/admin/adminHomePage'
 import { Toaster } from 'react-hot-toast'
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import SignupPage from './pages/signupPage'
 
 function App() {
   const [count, setCount] = useState(0)
-  const ID = import.meta.env.VITE_GOOGLE_ID
+  //const ID = import.meta.env.VITE_GOOGLE_ID
 
   return (
     <>
       <BrowserRouter>
       <Toaster />
-      <GoogleOAuthProvider clientId={ID}>
+      <GoogleOAuthProvider clientId='315193361061-7ctl629n1havhbrg34bujq6hqd1bv0m1.apps.googleusercontent.com'>
         <Routes path="/*">  
           <Route path="/login" element={<LoginPage />} />
           <Route path='/signup' element={<SignupPage />} />
